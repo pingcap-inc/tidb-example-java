@@ -1,13 +1,14 @@
 SET sql_safe_updates = FALSE;
 
-USE mysql;
-DROP DATABASE IF EXISTS bank;
-CREATE DATABASE IF NOT EXISTS bank;
+USE test;
+DROP DATABASE IF EXISTS game;
+CREATE DATABASE IF NOT EXISTS game;
 
-USE bank;
+USE game;
 
-CREATE TABLE accounts (
+CREATE TABLE player (
     `id` VARCHAR(36),
-    `balance` INTEGER,
+    `coins` INTEGER,
+    `goods` INTEGER,
 	PRIMARY KEY (`id`)
 );
