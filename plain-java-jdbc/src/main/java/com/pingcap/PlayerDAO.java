@@ -22,10 +22,10 @@ public class PlayerDAO {
     }
 
     /**
-     * Create players by passing in a List of PlayerBean
+     * create players by passing in a List of PlayerBean
      *
-     * @param players (List<PlayerBean>)
-     * @return The number of create accounts (int)
+     * @param players will create players list
+     * @return The number of create accounts
      */
     public int createPlayers(List<PlayerBean> players){
         int rows = 0;
@@ -68,13 +68,12 @@ public class PlayerDAO {
         return rows;
     }
 
-
     /**
      * buy goods and transfer funds between one player and another in one transaction
-     * @param sellId (String)
-     * @param buyId (String)
-     * @param amount (Integer)
-     * @param price (Integer)
+     * @param sellId sell player id
+     * @param buyId buy player id
+     * @param amount goods amount, if sell player has not enough goods, the trade will break
+     * @param price price should pay, if buy player has not enough coins, the trade will break
      *
      * @return The number of effected players (int)
      */
@@ -173,10 +172,10 @@ public class PlayerDAO {
     }
 
     /**
-     * Get the player info by id.
+     * get the player info by id.
      *
-     * @param id (String)
-     * @return player (PlayerBean)
+     * @param id player id
+     * @return the player of this id
      */
     public PlayerBean getPlayer(String id) {
         PlayerBean player = null;
@@ -215,7 +214,11 @@ public class PlayerDAO {
      *
      *    You can see the `rewriteBatchedStatements` param effect logic at
      *    implement function: `com.mysql.cj.jdbc.StatementImpl.executeBatchUsingMultiQueries`
-     * @return The number of new accounts inserted (int)
+     *
+     * @param total add players amount
+     * @param batchSize bulk insert size for per batch
+     *
+     * @return The number of new accounts inserted
      */
     public int bulkInsertRandomPlayers(Integer total, Integer batchSize) {
         int totalNewPlayers = 0;
@@ -257,9 +260,9 @@ public class PlayerDAO {
 
 
     /**
-     * print a subset of players from the data store.
+     * print a subset of players from the data storeby limit.
      *
-     * @param limit (int)
+     * @param limit print max size
      */
     public void printPlayers(Integer limit) {
         try (Connection connection = ds.getConnection()) {
@@ -283,6 +286,8 @@ public class PlayerDAO {
 
     /**
      * count players from the data store.
+     *
+     * @return all players count
      */
     public int countPlayers() {
         int count = 0;

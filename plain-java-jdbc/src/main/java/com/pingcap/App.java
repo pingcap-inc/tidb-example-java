@@ -26,7 +26,7 @@ public class App
         mysqlDataSource.setPassword("");
 
         // Or you can use jdbc string instead
-        // mysqlDataSource.setURL("jdbc:mysql://{host}:{port}/bank?user={user}&password={password}");
+        // mysqlDataSource.setURL("jdbc:mysql://{host}:{port}/game?user={user}&password={password}");
 
         // 2. And then, create DAO to manager your data
         PlayerDAO dao = new PlayerDAO(mysqlDataSource);

@@ -9,8 +9,6 @@
   <version>0.0.1</version>
 
   <name>plain-java-jdbc</name>
-  <url>http://www.example.com</url>
-
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
