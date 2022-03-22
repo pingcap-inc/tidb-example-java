@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.pingcap</groupId>
-  <artifactId>plain-java-jdbc</artifactId>
+  <artifactId>plain-java-hibernate</artifactId>
   <version>0.0.1</version>
-
-  <name>plain-java-jdbc</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -17,7 +15,6 @@
   </properties>
 
   <dependencies>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -30,6 +27,12 @@
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>8.0.28</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate.orm</groupId>
+      <artifactId>hibernate-core</artifactId>
+      <version>6.0.0.CR2</version>
     </dependency>
   </dependencies>
 
@@ -45,7 +48,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.pingcap.App</mainClass>
+              <mainClass>com.pingcap.ExampleDataSource</mainClass>
             </manifest>
           </archive>
 
@@ -62,5 +65,4 @@
       </plugin>
     </plugins>
   </build>
-
 </project>

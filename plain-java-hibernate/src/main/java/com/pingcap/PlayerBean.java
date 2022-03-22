@@ -1,24 +1,32 @@
-package com.pingcap.dao;
+package com.pingcap;
+
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "player_jpa")
+@Table(name = "player_hibernate")
 public class PlayerBean {
     @Id
-    @GeneratedValue(generator="player_id")
-    @SequenceGenerator(name="player_id",sequenceName="player_jpa_id_seq", allocationSize=1)
-    private Long id;
+    private String id;
     @Column(name = "coins")
     private Integer coins;
     @Column(name = "goods")
     private Integer goods;
 
-    public Long getId() {
+    public PlayerBean() {
+    }
+
+    public PlayerBean(String id, Integer coins, Integer goods) {
+        this.id = id;
+        this.coins = coins;
+        this.goods = goods;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
