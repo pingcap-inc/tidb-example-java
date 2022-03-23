@@ -1,6 +1,20 @@
 # tidb-example-java
 
-[TOC]
+* [tidb-example-java](#tidb-example-java)
+   * [Outline](#outline)
+   * [Dependency](#dependency)
+   * [plain-java-jdbc](#plain-java-jdbc)
+      * [Running way](#running-way)
+      * [Expected output](#expected-output)
+      * [Code](#code)
+   * [plain-java-hibernate](#plain-java-hibernate)
+      * [Running way](#running-way-1)
+      * [Expected output](#expected-output-1)
+      * [Code](#code-1)
+   * [spring-jpa-hibernate](#spring-jpa-hibernate)
+      * [Running way](#running-way-2)
+      * [Expected output](#expected-output-2)
+      * [Code](#code-2)
 
 ## Outline
 
