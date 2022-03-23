@@ -11,7 +11,7 @@
 
 	<groupId>com.pingcap</groupId>
 	<artifactId>spring-jpa-hibernate</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>spring-jpa-hibernate</name>
 	<description>an example for spring boot, jpa, hibernate and TiDB</description>
 

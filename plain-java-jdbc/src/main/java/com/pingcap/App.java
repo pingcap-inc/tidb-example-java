@@ -1,10 +1,6 @@
 package com.pingcap;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
-
-import java.math.BigDecimal;
-import java.sql.*;
-import java.time.LocalTime;
 import java.util.*;
 
 /**
@@ -21,7 +17,7 @@ public class App
         // 1.2 Set server name, port, database name , username and password
         mysqlDataSource.setServerName("localhost");
         mysqlDataSource.setPortNumber(4000);
-        mysqlDataSource.setDatabaseName("game");
+        mysqlDataSource.setDatabaseName("test");
         mysqlDataSource.setUser("root");
         mysqlDataSource.setPassword("");
 
