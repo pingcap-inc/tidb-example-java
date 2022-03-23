@@ -14,7 +14,7 @@ import java.util.Collections;
 public class App 
 {
     public static void main(String[] args) {
-        // Create a SessionFactory based on our hibernate.cfg.xml configuration
+        // 1. Create a SessionFactory based on our hibernate.cfg.xml configuration
         // file, which defines how to connect to the database.
         SessionFactory sessionFactory
                 = new Configuration()
@@ -23,10 +23,16 @@ public class App
                 .buildSessionFactory();
 
         try (Session session = sessionFactory.openSession()) {
+            // 2. And then, create DAO to manager your data
             PlayerDAO playerDAO = new PlayerDAO();
 
-            playerDAO.runTransaction(session, playerDAO.createPlayers(Collections.singletonList(new PlayerBean("test", 1, 1))));
+            // 3. Run some simple example
 
+            // Create a player
+            playerDAO.runTransaction(session, playerDAO.createPlayers(Collections.singletonList(
+                    new PlayerBean("test", 1, 1))));
+
+            // Get a player
             PlayerBean testPlayer = (PlayerBean)playerDAO.runTransaction(session, playerDAO.getPlayerByID("test"));
             System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
                     testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
@@ -37,7 +43,6 @@ public class App
 
             // Print 3 players
             playerDAO.runTransaction(session, playerDAO.printPlayers(3));
-
 
             // 4. Getting further
             PlayerBean player1 = new PlayerBean("1", 100, 0);

@@ -1,10 +1,7 @@
 SET sql_safe_updates = FALSE;
 
 USE test;
-DROP DATABASE IF EXISTS game;
-CREATE DATABASE IF NOT EXISTS game;
-
-USE game;
+DROP TABLE IF EXISTS player;
 
 CREATE TABLE player (
     `id` VARCHAR(36),

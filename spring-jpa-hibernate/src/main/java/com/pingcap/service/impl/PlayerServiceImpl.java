@@ -11,6 +11,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * PlayerServiceImpl implements PlayerService interface
+ * @Transactional it means every method in this class, will package by a pair of
+ *     transaction.begin() and transaction.commit(). and it will be call
+ *     transaction.rollback() when method throw an exception
+ */
 @Service
 @Transactional
 public class PlayerServiceImpl implements PlayerService {

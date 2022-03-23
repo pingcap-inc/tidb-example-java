@@ -6,6 +6,6 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
-#    database-platform: org.hibernate.dialect.TiDBDialect
+    database-platform: org.hibernate.dialect.TiDBDialect
     hibernate:
       ddl-auto: create-drop

@@ -2,7 +2,6 @@ package com.pingcap;
 
 import com.mysql.cj.jdbc.MysqlDataSource;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

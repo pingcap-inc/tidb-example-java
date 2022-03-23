@@ -35,6 +35,11 @@ public class PlayerController {
         return playerService.getPlayersByPage(index, size);
     }
 
+    @GetMapping("/count")
+    public Long getPlayersCount() {
+        return playerService.countPlayers();
+    }
+
     @PutMapping("/trade")
     public Boolean trade(@RequestParam Long sellID, @RequestParam Long buyID, @RequestParam Integer amount, @RequestParam Integer price) {
         try {
