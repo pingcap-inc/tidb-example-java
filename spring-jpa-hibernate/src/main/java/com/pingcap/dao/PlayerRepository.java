@@ -49,6 +49,7 @@ public interface PlayerRepository extends JpaRepository<PlayerBean, Long> {
      * @return player
      */
     @Lock(value = LockModeType.PESSIMISTIC_WRITE)
-    @Query(value = "SELECT * FROM player_jpa WHERE id = :id", nativeQuery = true)
+    @Query(value = "SELECT player FROM PlayerBean player WHERE player.id = :id")
+    // @Query(value = "SELECT * FROM player_jpa WHERE id = :id FOR UPDATE", nativeQuery = true)
     PlayerBean getPlayerAndLock(@Param("id") Long id);
 }
