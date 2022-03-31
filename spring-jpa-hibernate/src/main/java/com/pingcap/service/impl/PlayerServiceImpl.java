@@ -44,8 +44,8 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Override
     public void buyGoods(Long sellId, Long buyId, Integer amount, Integer price) throws RuntimeException {
-        PlayerBean buyPlayer = playerRepository.findById(buyId).orElse(null);
-        PlayerBean sellPlayer = playerRepository.findById(sellId).orElse(null);
+        PlayerBean buyPlayer = playerRepository.getPlayerAndLock(buyId);
+        PlayerBean sellPlayer = playerRepository.getPlayerAndLock(sellId);
         if (buyPlayer == null || sellPlayer == null) {
             throw new RuntimeException("sell or buy player not exist");
         }

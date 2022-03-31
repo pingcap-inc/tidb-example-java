@@ -14,9 +14,11 @@
 
 package com.pingcap.dao;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -40,4 +42,14 @@ public interface PlayerRepository extends JpaRepository<PlayerBean, Long> {
      */
     @Query(value = "SELECT * FROM player_jpa LIMIT :limit", nativeQuery = true)
     List<PlayerBean> getPlayersByLimit(@Param("limit") Integer limit);
+
+    /**
+     * query player and add a lock for update
+     * @param id player id
+     * @return player
+     */
+    @Lock(value = LockModeType.PESSIMISTIC_WRITE)
+    @Query(value = "SELECT player FROM PlayerBean player WHERE player.id = :id")
+    // @Query(value = "SELECT * FROM player_jpa WHERE id = :id FOR UPDATE", nativeQuery = true)
+    PlayerBean getPlayerAndLock(@Param("id") Long id);
 }
