@@ -189,7 +189,7 @@ public class HibernateExample
 
             // 3. Run some simple example
 
-            // Create a player
+            // Create a player, has a coin and a goods
             playerDAO.runTransaction(session, playerDAO.createPlayers(Collections.singletonList(
                     new PlayerBean("test", 1, 1))));
 
@@ -206,6 +206,9 @@ public class HibernateExample
             playerDAO.runTransaction(session, playerDAO.printPlayers(3));
 
             // 4. Getting further
+
+            // Player 1: id is "1", has only 100 coins
+            // Player 2: id is "2", has 114514 coins, and 20 goods
             PlayerBean player1 = new PlayerBean("1", 100, 0);
             PlayerBean player2 = new PlayerBean("2", 114514, 20);
 
