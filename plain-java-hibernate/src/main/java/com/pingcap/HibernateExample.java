@@ -189,7 +189,7 @@ public class HibernateExample
 
             // 3. Run some simple example
 
-            // Create a player, has a coin and a goods
+            // Create a player who has 1 coin and 1 goods
             playerDAO.runTransaction(session, playerDAO.createPlayers(Collections.singletonList(
                     new PlayerBean("test", 1, 1))));
 
@@ -212,12 +212,12 @@ public class HibernateExample
             PlayerBean player1 = new PlayerBean("1", 100, 0);
             PlayerBean player2 = new PlayerBean("2", 114514, 20);
 
-            // Insert two players "by hand", using INSERT on the backend.
+            // Create two players "by hand", using the INSERT statement on the backend.
             int addedCount = (Integer)playerDAO.runTransaction(session,
                     playerDAO.createPlayers(Arrays.asList(player1, player2)));
             System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
-            // Player 1 want to buy 10 goods from player 2
+            // Player 1 wants to buy 10 goods from player 2.
             // It will cost 500 coins, but player 1 can't afford it
             System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
             Integer updatedCount = (Integer)playerDAO.runTransaction(session,
