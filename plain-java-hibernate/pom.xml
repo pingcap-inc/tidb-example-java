@@ -48,7 +48,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.pingcap.App</mainClass>
+              <mainClass>com.pingcap.HibernateExample</mainClass>
             </manifest>
           </archive>
 

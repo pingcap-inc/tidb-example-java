@@ -1,5 +1,3 @@
-SET sql_safe_updates = FALSE;
-
 USE test;
 DROP TABLE IF EXISTS player;
 

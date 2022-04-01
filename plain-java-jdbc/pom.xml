@@ -44,7 +44,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.pingcap.App</mainClass>
+              <mainClass>com.pingcap.JDBCExample</mainClass>
             </manifest>
           </archive>
 
