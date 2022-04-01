@@ -73,6 +73,12 @@ class PlayerBean {
     public void setGoods(Integer goods) {
         this.goods = goods;
     }
+
+    @Override
+    public String toString() {
+        return String.format("    %-8s => %10s\n    %-8s => %10s\n    %-8s => %10s\n",
+                "id", this.id, "coins", this.coins, "goods", this.goods);
+    }
 }
 
 /**
@@ -157,10 +163,7 @@ public class HibernateExample
                 List<PlayerBean> players = limitQuery.getResultList();
 
                 for (PlayerBean player: players) {
-                    System.out.println("\n[printPlayers]:");
-                    System.out.printf("    %-8s => %10s\n", "id", player.getId());
-                    System.out.printf("    %-8s => %d\n", "coins", player.getCoins());
-                    System.out.printf("    %-8s => %d\n", "goods", player.getGoods());
+                    System.out.println("\n[printPlayers]:\n" + player);
                 }
                 return 0;
             };
