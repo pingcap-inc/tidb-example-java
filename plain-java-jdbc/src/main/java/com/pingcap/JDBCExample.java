@@ -64,6 +64,12 @@ public class JDBCExample
         public void setGoods(Integer goods) {
             this.goods = goods;
         }
+
+        @Override
+        public String toString() {
+            return String.format("    %-8s => %10s\n    %-8s => %10s\n    %-8s => %10s\n",
+                    "id", this.id, "coins", this.coins, "goods", this.goods);
+        }
     }
 
     /**
@@ -167,9 +173,7 @@ public class JDBCExample
                     );
 
                     System.out.println("\n[buyGoods]:\n    'check goods and coins enough'");
-                    System.out.printf("    %-8s => %10s\n", "id", player.getId());
-                    System.out.printf("    %-8s => %10s\n", "coins", player.getCoins());
-                    System.out.printf("    %-8s => %10s\n", "goods", player.getGoods());
+                    System.out.println(player);
 
                     if (sellId.equals(player.getId())) {
                         sellPlayer = player;
@@ -329,10 +333,9 @@ public class JDBCExample
 
                 ResultSet res = preparedStatement.executeQuery();
                 while (!res.next()) {
-                    System.out.println("\n[printPlayers]:");
-                    System.out.printf("    %-8s => %10s\n", "id", res.getString("id"));
-                    System.out.printf("    %-8s => %10s\n", "coins", res.getInt("coins"));
-                    System.out.printf("    %-8s => %10s\n", "goods", res.getInt("goods"));
+                    PlayerBean player = new PlayerBean(res.getString("id"),
+                            res.getInt("coins"), res.getInt("goods"));
+                    System.out.println("\n[printPlayers]:\n" + player);
                 }
             } catch (SQLException e) {
                 System.out.printf("PlayerDAO.printPlayers ERROR: { state => %s, cause => %s, message => %s }\n",
