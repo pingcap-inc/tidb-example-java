@@ -68,7 +68,7 @@ public class JDBCExample
 
     /**
      * Data access object used by 'ExampleDataSource'.
-     * Example for CURD and bulk insert
+     * Example for CURD and bulk insert.
      */
     public static class PlayerDAO {
         private final MysqlDataSource ds;
@@ -79,9 +79,9 @@ public class JDBCExample
         }
 
         /**
-         * create players by passing in a List of PlayerBean
+         * Create players by passing in a List of PlayerBean.
          *
-         * @param players will create players list
+         * @param players Will create players list
          * @return The number of create accounts
          */
         public int createPlayers(List<PlayerBean> players){
@@ -126,13 +126,13 @@ public class JDBCExample
         }
 
         /**
-         * buy goods and transfer funds between one player and another in one transaction
-         * @param sellId sell player id
-         * @param buyId buy player id
-         * @param amount goods amount, if sell player has not enough goods, the trade will break
-         * @param price price should pay, if buy player has not enough coins, the trade will break
+         * Buy goods and transfer funds between one player and another in one transaction.
+         * @param sellId Sell player id.
+         * @param buyId Buy player id.
+         * @param amount Goods amount, if sell player has not enough goods, the trade will break.
+         * @param price Price should pay, if buy player has not enough coins, the trade will break.
          *
-         * @return The number of effected players (int)
+         * @return The number of effected players.
          */
         public int buyGoods(String sellId, String buyId, Integer amount, Integer price) {
             int effectPlayers = 0;
@@ -229,10 +229,10 @@ public class JDBCExample
         }
 
         /**
-         * get the player info by id.
+         * Get the player info by id.
          *
-         * @param id player id
-         * @return the player of this id
+         * @param id Player id.
+         * @return The player of this id.
          */
         public PlayerBean getPlayer(String id) {
             PlayerBean player = null;
@@ -259,7 +259,7 @@ public class JDBCExample
         /**
          * Insert randomized account data (id, coins, goods) using the JDBC fast path for
          * bulk inserts.  The fastest way to get data into TiDB is using the
-         * TiDB Lightning(https://docs.pingcap.com/zh/tidb/v4.0/tidb-lightning-overview).
+         * TiDB Lightning(https://docs.pingcap.com/zh/tidb/stable/tidb-lightning-overview).
          * However, if you must bulk insert from the application using INSERT SQL, the best
          * option is the method shown here. It will require the following:
          *
@@ -272,10 +272,10 @@ public class JDBCExample
          *    You can see the `rewriteBatchedStatements` param effect logic at
          *    implement function: `com.mysql.cj.jdbc.StatementImpl.executeBatchUsingMultiQueries`
          *
-         * @param total add players amount
-         * @param batchSize bulk insert size for per batch
+         * @param total Add players amount.
+         * @param batchSize Bulk insert size for per batch.
          *
-         * @return The number of new accounts inserted
+         * @return The number of new accounts inserted.
          */
         public int bulkInsertRandomPlayers(Integer total, Integer batchSize) {
             int totalNewPlayers = 0;
@@ -317,9 +317,9 @@ public class JDBCExample
 
 
         /**
-         * print a subset of players from the data storeby limit.
+         * Print a subset of players from the data store by limit.
          *
-         * @param limit print max size
+         * @param limit Print max size.
          */
         public void printPlayers(Integer limit) {
             try (Connection connection = ds.getConnection()) {
@@ -342,9 +342,9 @@ public class JDBCExample
 
 
         /**
-         * count players from the data store.
+         * Count players from the data store.
          *
-         * @return all players count
+         * @return All players count
          */
         public int countPlayers() {
             int count = 0;
@@ -369,61 +369,61 @@ public class JDBCExample
     public static void main(String[] args) {
         // 1. Configure the example database connection.
 
-        // 1.1 Create a mysql data source instance
+        // 1.1 Create a mysql data source instance.
         MysqlDataSource mysqlDataSource = new MysqlDataSource();
 
-        // 1.2 Set server name, port, database name , username and password
+        // 1.2 Set server name, port, database name, username and password.
         mysqlDataSource.setServerName("localhost");
         mysqlDataSource.setPortNumber(4000);
         mysqlDataSource.setDatabaseName("test");
         mysqlDataSource.setUser("root");
         mysqlDataSource.setPassword("");
 
-        // Or you can use jdbc string instead
+        // Or you can use jdbc string instead.
         // mysqlDataSource.setURL("jdbc:mysql://{host}:{port}/test?user={user}&password={password}");
 
-        // 2. And then, create DAO to manager your data
+        // 2. And then, create DAO to manager your data.
         PlayerDAO dao = new PlayerDAO(mysqlDataSource);
 
-        // 3. Run some simple example
+        // 3. Run some simple example.
 
-        // Create a player, has a coin and a goods
+        // Create a player, has a coin and a goods.
         dao.createPlayers(Collections.singletonList(new PlayerBean("test", 1, 1)));
 
-        // Get a player
+        // Get a player.
         PlayerBean testPlayer = dao.getPlayer("test");
         System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
                 testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
 
-        // Create players with bulk inserts, insert 1919 players totally, and per batch for 114 players
+        // Create players with bulk inserts, insert 1919 players totally, and per batch for 114 players.
         int addedCount = dao.bulkInsertRandomPlayers(1919, 114);
         System.out.printf("PlayerDAO.bulkInsertRandomPlayers:\n    => %d total inserted players\n", addedCount);
 
-        // Count players amount
+        // Count players amount.
         int count = dao.countPlayers();
         System.out.printf("PlayerDAO.countPlayers:\n    => %d total players\n", count);
 
-        // Print 3 players
+        // Print 3 players.
         dao.printPlayers(3);
 
-        // 4. Getting further
+        // 4. Getting further.
 
-        // Player 1: id is "1", has only 100 coins
-        // Player 2: id is "2", has 114514 coins, and 20 goods
+        // Player 1: id is "1", has only 100 coins.
+        // Player 2: id is "2", has 114514 coins, and 20 goods.
         PlayerBean player1 = new PlayerBean("1", 100, 0);
         PlayerBean player2 = new PlayerBean("2", 114514, 20);
 
-        // Insert two players "by hand", using INSERT on the backend.
+        // Create two players "by hand", using the INSERT statement on the backend.
         addedCount = dao.createPlayers(Arrays.asList(player1, player2));
         System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
-        // Player 1 want to buy 10 goods from player 2
-        // It will cost 500 coins, but player 1 can't afford it
+        // Player 1 wants to buy 10 goods from player 2.
+        // It will cost 500 coins, but player 1 can't afford it.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
         int updatedCount = dao.buyGoods(player2.getId(), player1.getId(), 10, 500);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
 
-        // So player 1 have to reduce his incoming quantity to two
+        // So player 1 have to reduce his incoming quantity to two.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
         updatedCount = dao.buyGoods(player2.getId(), player1.getId(), 2, 100);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);

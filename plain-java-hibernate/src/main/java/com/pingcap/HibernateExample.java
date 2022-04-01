@@ -184,31 +184,31 @@ public class HibernateExample
                 .buildSessionFactory();
 
         try (Session session = sessionFactory.openSession()) {
-            // 2. And then, create DAO to manager your data
+            // 2. And then, create DAO to manager your data.
             PlayerDAO playerDAO = new PlayerDAO();
 
-            // 3. Run some simple example
+            // 3. Run some simple example.
 
-            // Create a player who has 1 coin and 1 goods
+            // Create a player who has 1 coin and 1 goods.
             playerDAO.runTransaction(session, playerDAO.createPlayers(Collections.singletonList(
                     new PlayerBean("test", 1, 1))));
 
-            // Get a player
+            // Get a player.
             PlayerBean testPlayer = (PlayerBean)playerDAO.runTransaction(session, playerDAO.getPlayerByID("test"));
             System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
                     testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
 
-            // Count players amount
+            // Count players amount.
             Long count = (Long)playerDAO.runTransaction(session, playerDAO.countPlayers());
             System.out.printf("PlayerDAO.countPlayers:\n    => %d total players\n", count);
 
-            // Print 3 players
+            // Print 3 players.
             playerDAO.runTransaction(session, playerDAO.printPlayers(3));
 
-            // 4. Getting further
+            // 4. Getting further.
 
-            // Player 1: id is "1", has only 100 coins
-            // Player 2: id is "2", has 114514 coins, and 20 goods
+            // Player 1: id is "1", has only 100 coins.
+            // Player 2: id is "2", has 114514 coins, and 20 goods.
             PlayerBean player1 = new PlayerBean("1", 100, 0);
             PlayerBean player2 = new PlayerBean("2", 114514, 20);
 
@@ -218,13 +218,13 @@ public class HibernateExample
             System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
             // Player 1 wants to buy 10 goods from player 2.
-            // It will cost 500 coins, but player 1 can't afford it
+            // It will cost 500 coins, but player 1 can't afford it.
             System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
             Integer updatedCount = (Integer)playerDAO.runTransaction(session,
                     playerDAO.buyGoods(player2.getId(), player1.getId(), 10, 500));
             System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
 
-            // So player 1 have to reduce his incoming quantity to two
+            // So player 1 have to reduce his incoming quantity to two.
             System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
             updatedCount = (Integer)playerDAO.runTransaction(session,
                     playerDAO.buyGoods(player2.getId(), player1.getId(), 2, 100));
