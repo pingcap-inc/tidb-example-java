@@ -263,7 +263,7 @@ public class JDBCExample
         /**
          * Insert randomized account data (id, coins, goods) using the JDBC fast path for
          * bulk inserts.  The fastest way to get data into TiDB is using the
-         * TiDB Lightning(https://docs.pingcap.com/zh/tidb/stable/tidb-lightning-overview).
+         * TiDB Lightning(https://docs.pingcap.com/tidb/stable/tidb-lightning-overview).
          * However, if you must bulk insert from the application using INSERT SQL, the best
          * option is the method shown here. It will require the following:
          *
