@@ -1,6 +1,5 @@
-FROM gitpod/workspace-full
+FROM gitpod/workspace-java-17
 
-RUN brew install maven
-RUN brew install openjdk
+
 RUN brew install mysql-client
 RUN echo 'export PATH="/home/linuxbrew/.linuxbrew/opt/mysql-client/bin:$PATH"' >> /home/gitpod/.bash_profile
