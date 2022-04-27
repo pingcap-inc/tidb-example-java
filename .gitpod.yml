@@ -6,4 +6,13 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: tiup playground
+  - name: TiUP init playground
+    command: |
+      source .profile
+      tiup playground
+      gp sync-done bundle
+  - name: Test Case
+    init: gp sync-await bundle
+    command: make
+    openMode: split-right
+  
