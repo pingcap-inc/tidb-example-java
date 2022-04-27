@@ -6,4 +6,4 @@ image:
   file: .gitpod.Dockerfile
 
 tasks:
-  - init: make
+  - init: tiup playground
