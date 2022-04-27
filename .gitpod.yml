@@ -9,9 +9,8 @@ tasks:
   - name: TiUP init playground
     command: |
       $HOME/.tiup/bin/tiup playground
-      gp sync-done bundle
   - name: Test Case
-    init: gp sync-await bundle
-    command: make
     openMode: split-right
-  
+    command: |
+      gp await-port 3000
+      make
