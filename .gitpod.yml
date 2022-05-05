@@ -13,6 +13,7 @@ tasks:
     openMode: split-right
     command: |
       gp await-port 3930
+      cd tidb-example-java/spring-jpa-hibernate
       make
 
 ports:
