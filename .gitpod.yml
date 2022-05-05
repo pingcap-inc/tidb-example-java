@@ -12,5 +12,14 @@ tasks:
   - name: Test Case
     openMode: split-right
     command: |
-      gp await-port 3000
+      gp await-port 3930
       make
+
+ports:
+  - port: 8080
+    visibility: public
+  - port: 4000
+    visibility: public
+  - port: 2379-36663
+    onOpen: ignore
+
