@@ -15,6 +15,10 @@ tasks:
       gp await-port 3930
       cd spring-jpa-hibernate
       make
+  - name: Test Case
+    command: |
+      gp await-port 8080
+      if [ -n "$targetFile" ]; then code ${targetFile//[_]//};  fi
 
 ports:
   - port: 8080
