@@ -68,9 +68,7 @@ plain-java-jdbc [expected output](./Expected-Output.md#plain-java-jdbc)
 ### Code
 
 - [Initial SQL](./plain-java-jdbc/src/main/resources/dbinit.sql)
-- [Main Class](./plain-java-jdbc/src/main/java/com/pingcap/App.java)
-- [Data Access Object](./plain-java-jdbc/src/main/java/com/pingcap/PlayerDAO.java)
-- [Data Entity](./plain-java-jdbc/src/main/java/com/pingcap/PlayerBean.java)
+- [Main Class](./plain-java-jdbc/src/main/java/com/pingcap/JDBCExample.java)
 
 ## plain-java-hibernate
 
@@ -148,3 +146,7 @@ Provide a group of HTTP Restful interface.
 - service (Feature interface and implement)
   - [Interface](./spring-jpa-hibernate/src/main/java/com/pingcap/service/PlayerService.java)
   - [Implement Class](./spring-jpa-hibernate/src/main/java/com/pingcap/service/impl/PlayerServiceImpl.java)
+
+## More Demo
+
+- [plain-java-jdbc-bookshop](./plain-java-jdbc-bookshop/README.md)
