@@ -16,8 +16,22 @@ tasks:
     openMode: split-right
     command: |
       gp await-port 3930
-      cd spring-jpa-hibernate
-      make
+      echo "*** Waiting for TiUP Playground Ready! ***"
+      if [ $targetMode == "plain-java-jdbc" ]
+      then
+        cd plain-java-jdbc
+        code src/main/resources/dbinit.sql
+        code src/test/java/com/pingcap/AppTest.java
+        make mysql
+      elif [ $targetMode == "plain-java-hibernate" ]
+      then
+        cd plain-java-hibernate
+        make
+      elif [ $targetMode == "spring-jpa-hibernate" ]
+      then
+        cd spring-jpa-hibernate
+        make
+      fi
 
 ports:
   - port: 8080
