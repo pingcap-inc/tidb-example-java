@@ -12,22 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: plain-java-jdbc plain-java-jdbc-bookshop plain-java-hibernate spring-jpa-hibernate request stop
+.PHONY: all prepare build run
 
-plain-java-jdbc:
-	$(MAKE) -C plain-java-jdbc
+all:
+	make build run
 
-plain-java-jdbc-bookshop:
-	$(MAKE) -C plain-java-jdbc-bookshop
+prepare:
+	tiup demo bookshop prepare --drop-tables
 
-plain-java-hibernate:
-	$(MAKE) -C plain-java-hibernate
+build:
+	mvn clean package
 
-spring-jpa-hibernate:
-	$(MAKE) -C spring-jpa-hibernate
-
-request:
-	$(MAKE) -C spring-jpa-hibernate request
-
-stop:
-	$(MAKE) -C spring-jpa-hibernate stop
+run:
+	java -jar target/plain-java-jdbc-bookshop-0.0.1-jar-with-dependencies.jar
