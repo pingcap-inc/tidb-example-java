@@ -150,3 +150,5 @@ Provide a group of HTTP Restful interface.
 ## More Demo
 
 - [plain-java-jdbc-bookshop](./plain-java-jdbc-bookshop/README.md)
+- [plain-java-txn-optimistic](./plain-java-txn-optimistic/README.md)
+- [plain-java-txn-pessimistic](./plain-java-txn-pessimistic/README.md)
