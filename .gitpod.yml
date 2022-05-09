@@ -21,7 +21,7 @@ tasks:
       then
         cd plain-java-jdbc
         code src/main/resources/dbinit.sql
-        code src/test/java/com/pingcap/AppTest.java
+        code src/main/java/com/pingcap/JDBCExample.java
         make mysql
       elif [ "$targetMode" == "plain-java-hibernate" ]
       then
