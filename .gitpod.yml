@@ -14,20 +14,20 @@ tasks:
       $HOME/.tiup/bin/tiup playground
   - name: Test Case
     openMode: split-right
+    init: echo "*** Waiting for TiUP Playground Ready! ***"
     command: |
       gp await-port 3930
-      echo "*** Waiting for TiUP Playground Ready! ***"
-      if [ $targetMode == "plain-java-jdbc" ]
+      if [ "$targetMode" == "plain-java-jdbc" ]
       then
         cd plain-java-jdbc
         code src/main/resources/dbinit.sql
         code src/test/java/com/pingcap/AppTest.java
         make mysql
-      elif [ $targetMode == "plain-java-hibernate" ]
+      elif [ "$targetMode" == "plain-java-hibernate" ]
       then
         cd plain-java-hibernate
         make
-      elif [ $targetMode == "spring-jpa-hibernate" ]
+      elif [ "$targetMode" == "spring-jpa-hibernate" ]
       then
         cd spring-jpa-hibernate
         make
