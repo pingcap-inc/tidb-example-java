@@ -150,3 +150,4 @@ Provide a group of HTTP Restful interface.
 ## More Demo
 
 - [plain-java-jdbc-bookshop](./plain-java-jdbc-bookshop/README.md)
+- [plain-java-write-skew](./plain-java-write-skew/README.md)
