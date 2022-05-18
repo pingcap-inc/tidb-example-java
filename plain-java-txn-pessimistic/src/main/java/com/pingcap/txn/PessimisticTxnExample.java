@@ -78,6 +78,7 @@ public class PessimisticTxnExample {
     public static void buy (HikariDataSource ds, Integer threadID,
                             Long orderID, Long bookID, Long userID, Integer quantity) {
         String txnComment = "/* txn " + threadID + " */ ";
+        System.out.printf("\nuser %d try to buy %d books, book id: %d\n", userID, quantity, bookID);
 
         try (Connection connection = ds.getConnection()) {
             try {
@@ -130,8 +131,10 @@ public class PessimisticTxnExample {
                 updateUser.executeUpdate();
 
                 connection.createStatement().executeUpdate(txnComment + "commit");
+                System.out.printf("\nuser %d buy %d books(id: %d) successfully\n", userID, quantity, bookID);
             } catch (Exception e) {
                 connection.createStatement().executeUpdate(txnComment + "rollback");
+                System.out.printf("\nuser %d fail to buy %d books(id: %d) because %s error\n", userID, quantity, bookID, e.getMessage());
                 e.printStackTrace();
             }
         } catch (SQLException e) {

@@ -83,6 +83,7 @@ public class OptimisticTxnExample {
                             Long userID, Integer quantity, Integer retryTimes) {
         String txnComment = "/* txn " + threadID + " */ ";
 
+        System.out.printf("\nuser %d try to buy %d books(id: %d)\n", userID, quantity, bookID);
         try (Connection connection = ds.getConnection()) {
             try {
 
@@ -133,9 +134,10 @@ public class OptimisticTxnExample {
                 updateUser.executeUpdate();
 
                 connection.createStatement().executeUpdate(txnComment + "commit");
+                System.out.printf("\nuser %d buy %d books(id: %d) successfully\n", userID, quantity, bookID);
             } catch (Exception e) {
                 connection.createStatement().executeUpdate(txnComment + "rollback");
-                System.out.println("error occurred: " + e.getMessage());
+                System.out.printf("\nuser %d fail to buy %d books(id: %d) because %s error\n", userID, quantity, bookID, e.getMessage());
 
                 if (e instanceof SQLException sqlException) {
                     switch (sqlException.getErrorCode()) {
