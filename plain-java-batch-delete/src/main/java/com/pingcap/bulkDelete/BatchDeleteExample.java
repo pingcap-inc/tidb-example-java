@@ -38,13 +38,13 @@ public class BatchDeleteExample
         mysqlDataSource.setUser("root");
         mysqlDataSource.setPassword("");
 
-        while (true) {
-            batchDelete(mysqlDataSource);
-            TimeUnit.SECONDS.sleep(1);
-        }
+        Integer updateCount;
+        do {
+            updateCount = batchDelete(mysqlDataSource);
+        } while (updateCount > 0);
     }
 
-    public static void batchDelete (MysqlDataSource ds) {
+    public static Integer batchDelete (MysqlDataSource ds) {
         try (Connection connection = ds.getConnection()) {
             String sql = "DELETE FROM `bookshop`.`ratings` WHERE `rated_at` >= ? AND  `rated_at` <= ? LIMIT 1000";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -59,8 +59,12 @@ public class BatchDeleteExample
 
             int count = preparedStatement.executeUpdate();
             System.out.println("delete " + count + " data");
+
+            return count;
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return -1;
     }
 }
