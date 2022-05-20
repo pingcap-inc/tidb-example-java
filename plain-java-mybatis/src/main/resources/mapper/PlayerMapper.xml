@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pingcap.dao.PlayerMapper">
+  <resultMap id="BaseResultMap" type="com.pingcap.dao.Player">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="coins" jdbcType="BIGINT" property="coins" />
+    <result column="goods" jdbcType="BIGINT" property="goods" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coins, goods
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from player
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from player
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.pingcap.dao.Player">
+    insert into player (id, coins, goods
+      )
+    values (#{id,jdbcType=VARCHAR}, #{coins,jdbcType=BIGINT}, #{goods,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pingcap.dao.Player">
+    insert into player
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="coins != null">
+        coins,
+      </if>
+      <if test="goods != null">
+        goods,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="coins != null">
+        #{coins,jdbcType=BIGINT},
+      </if>
+      <if test="goods != null">
+        #{goods,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pingcap.dao.Player">
+    update player
+    <set>
+      <if test="coins != null">
+        coins = #{coins,jdbcType=BIGINT},
+      </if>
+      <if test="goods != null">
+        goods = #{goods,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pingcap.dao.Player">
+    update player
+    set coins = #{coins,jdbcType=BIGINT},
+      goods = #{goods,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
