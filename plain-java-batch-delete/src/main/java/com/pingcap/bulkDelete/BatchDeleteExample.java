@@ -38,10 +38,10 @@ public class BatchDeleteExample
         mysqlDataSource.setUser("root");
         mysqlDataSource.setPassword("");
 
-        Integer updateCount = -1;
-        while (updateCount != 0) {
+        Integer updateCount;
+        do {
             updateCount = batchDelete(mysqlDataSource);
-        }
+        } while (updateCount > 0);
     }
 
     public static Integer batchDelete (MysqlDataSource ds) {
