@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: gen build run
+.PHONY: all gen build run
 
 all:
 	make build run
