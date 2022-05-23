@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: plain-java-jdbc plain-java-jdbc-bookshop plain-java-hibernate spring-jpa-hibernate request stop
+.PHONY: plain-java-jdbc plain-java-jdbc-bookshop plain-java-hibernate plain-java-mybatis plain-java-mybatis-gen spring-jpa-hibernate request stop
 
 plain-java-jdbc:
 	$(MAKE) -C plain-java-jdbc
@@ -22,6 +22,12 @@ plain-java-jdbc-bookshop:
 
 plain-java-hibernate:
 	$(MAKE) -C plain-java-hibernate
+
+plain-java-mybatis:
+	$(MAKE) -C plain-java-mybatis
+
+plain-java-mybatis-gen:
+	$(MAKE) -C plain-java-mybatis gen
 
 spring-jpa-hibernate:
 	$(MAKE) -C spring-jpa-hibernate

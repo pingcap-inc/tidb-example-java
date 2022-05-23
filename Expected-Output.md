@@ -387,6 +387,194 @@ INFO: HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.
 INFO: HHH10001008: Cleaning up connection pool [jdbc:mysql://localhost:4000/test]
 ```
 
+## plain-java-mybatis
+
+```
+/Library/Developer/CommandLineTools/usr/bin/make -C plain-java-mybatis
+make build run
+mvn clean package
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< com.pingcap:plain-java-mybatis >-------------------
+[INFO] Building plain-java-mybatis 0.0.1
+[INFO] --------------------------------[ jar ]---------------------------------
+[WARNING] The artifact org.slf4j:slf4j-log4j12:jar:1.7.36 has been relocated to org.slf4j:slf4j-reload4j:jar:1.7.36
+[INFO] 
+[INFO] --- maven-clean-plugin:2.5:clean (default-clean) @ plain-java-mybatis ---
+[INFO] Deleting /Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:resources (default-resources) @ plain-java-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] Copying 5 resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ plain-java-mybatis ---
+[INFO] Changes detected - recompiling the module!
+[INFO] Compiling 5 source files to /Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/classes
+[INFO] 
+[INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ plain-java-mybatis ---
+[INFO] Using 'UTF-8' encoding to copy filtered resources.
+[INFO] skip non existing resourceDirectory /Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/src/test/resources
+[INFO] 
+[INFO] --- maven-compiler-plugin:3.1:testCompile (default-testCompile) @ plain-java-mybatis ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- maven-surefire-plugin:2.12.4:test (default-test) @ plain-java-mybatis ---
+[INFO] No tests to run.
+[INFO] 
+[INFO] --- maven-jar-plugin:2.4:jar (default-jar) @ plain-java-mybatis ---
+[INFO] Building jar: /Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1.jar
+[INFO] 
+[INFO] --- maven-assembly-plugin:3.3.0:single (make-assembly) @ plain-java-mybatis ---
+[INFO] Building jar: /Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  1.926 s
+[INFO] Finished at: 2022-05-23T15:54:25+08:00
+[INFO] ------------------------------------------------------------------------
+java -jar target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
+DEBUG 2022-05-23 15:54:25,399 org.apache.ibatis.logging.LogFactory: Logging initialized using 'class org.apache.ibatis.logging.slf4j.Slf4jImpl' adapter.
+DEBUG 2022-05-23 15:54:25,400 org.apache.ibatis.logging.LogFactory: Logging initialized using 'class org.apache.ibatis.logging.log4j.Log4jImpl' adapter.
+DEBUG 2022-05-23 15:54:25,401 org.apache.ibatis.io.VFS: Class not found: org.jboss.vfs.VFS
+DEBUG 2022-05-23 15:54:25,401 org.apache.ibatis.io.JBoss6VFS: JBoss 6 VFS API is not available in this environment.
+DEBUG 2022-05-23 15:54:25,401 org.apache.ibatis.io.VFS: Class not found: org.jboss.vfs.VirtualFile
+DEBUG 2022-05-23 15:54:25,402 org.apache.ibatis.io.VFS$VFSHolder: VFS implementation org.apache.ibatis.io.JBoss6VFS is not valid in this environment.
+DEBUG 2022-05-23 15:54:25,402 org.apache.ibatis.io.VFS$VFSHolder: Using VFS adapter org.apache.ibatis.io.DefaultVFS
+DEBUG 2022-05-23 15:54:25,402 org.apache.ibatis.io.DefaultVFS: Find JAR URL: jar:file:/Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar!/com/pingcap/dao
+DEBUG 2022-05-23 15:54:25,402 org.apache.ibatis.io.DefaultVFS: Inner URL: file:/Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar!/com/pingcap/dao
+DEBUG 2022-05-23 15:54:25,402 org.apache.ibatis.io.DefaultVFS: Extracted JAR URL: file:/Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
+DEBUG 2022-05-23 15:54:25,403 org.apache.ibatis.io.DefaultVFS: Found JAR: file:/Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
+DEBUG 2022-05-23 15:54:25,403 org.apache.ibatis.io.DefaultVFS: Listing jar:file:/Users/cheese/IdeaProjects/tidb-example-java/plain-java-mybatis/target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar!/com/pingcap/dao
+DEBUG 2022-05-23 15:54:25,480 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerMapperEx.class
+DEBUG 2022-05-23 15:54:25,480 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerDAO.class
+DEBUG 2022-05-23 15:54:25,480 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerDAO$NotEnoughException.class
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/Player.class
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerMapper.class
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerMapperEx matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerDAO matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerDAO$NotEnoughException matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.Player matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerMapper matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,489 org.apache.ibatis.datasource.pooled.PooledDataSource: PooledDataSource forcefully closed/removed all connections.
+DEBUG 2022-05-23 15:54:25,489 org.apache.ibatis.datasource.pooled.PooledDataSource: PooledDataSource forcefully closed/removed all connections.
+DEBUG 2022-05-23 15:54:25,489 org.apache.ibatis.datasource.pooled.PooledDataSource: PooledDataSource forcefully closed/removed all connections.
+DEBUG 2022-05-23 15:54:25,489 org.apache.ibatis.datasource.pooled.PooledDataSource: PooledDataSource forcefully closed/removed all connections.
+DEBUG 2022-05-23 15:54:25,533 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+Mon May 23 15:54:25 CST 2022 WARN: Establishing SSL connection without server's identity verification is not recommended. According to MySQL 5.5.45+, 5.6.26+ and 5.7.6+ requirements SSL connection must be established by default if explicit option isn't set. For compliance with existing applications not using SSL the verifyServerCertificate property is set to 'false'. You need either to explicitly disable SSL by setting useSSL=false, or set useSSL=true and provide truststore for server certificate verification.
+DEBUG 2022-05-23 15:54:25,637 org.apache.ibatis.datasource.pooled.PooledDataSource: Created connection 1287934450.
+DEBUG 2022-05-23 15:54:25,637 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,639 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: insert into player (id, coins, goods ) values (?, ?, ? )
+DEBUG 2022-05-23 15:54:25,654 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: test(String), 1(Long), 1(Long)
+DEBUG 2022-05-23 15:54:25,661 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==    Updates: 1
+APP: createPlayers() --> 1
+DEBUG 2022-05-23 15:54:25,665 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Committing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,668 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,668 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,668 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+DEBUG 2022-05-23 15:54:25,670 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,670 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,670 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,670 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player where id = ?
+DEBUG 2022-05-23 15:54:25,670 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: test(String)
+DEBUG 2022-05-23 15:54:25,679 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,679 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+PlayerDAO.getPlayer:
+    => id: test
+    => coins: 1
+    => goods: 1
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select count(*) from player
+DEBUG 2022-05-23 15:54:25,680 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 
+DEBUG 2022-05-23 15:54:25,682 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,682 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+PlayerDAO.countPlayers:
+    => 1 total players
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,683 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player limit ?
+DEBUG 2022-05-23 15:54:25,684 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 3(Integer)
+DEBUG 2022-05-23 15:54:25,685 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+
+[printPlayers]:
+com.pingcap.dao.Player@2362f559
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,685 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,685 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,685 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+DEBUG 2022-05-23 15:54:25,686 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,686 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,686 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,686 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: insert into player (id, coins, goods ) values (?, ?, ? )
+DEBUG 2022-05-23 15:54:25,686 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 1(String), 100(Long), 0(Long)
+DEBUG 2022-05-23 15:54:25,688 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==    Updates: 1
+DEBUG 2022-05-23 15:54:25,688 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: insert into player (id, coins, goods ) values (?, ?, ? )
+DEBUG 2022-05-23 15:54:25,689 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 2(String), 114514(Long), 20(Long)
+DEBUG 2022-05-23 15:54:25,690 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==    Updates: 1
+APP: createPlayers() --> 2
+DEBUG 2022-05-23 15:54:25,690 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Committing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,692 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,693 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,693 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+PlayerDAO.createPlayers:
+    => 2 total inserted players
+
+PlayerDAO.buyGoods:
+    => this trade will fail
+DEBUG 2022-05-23 15:54:25,693 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,693 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,693 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,694 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player where `id` = ? for update
+DEBUG 2022-05-23 15:54:25,694 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 2(String)
+DEBUG 2022-05-23 15:54:25,695 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+DEBUG 2022-05-23 15:54:25,695 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player where `id` = ? for update
+DEBUG 2022-05-23 15:54:25,695 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 1(String)
+DEBUG 2022-05-23 15:54:25,696 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+APP: ROLLBACK BY LOGIC; 
+coins or goods not enough, rollback
+DEBUG 2022-05-23 15:54:25,696 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,697 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,697 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+PlayerDAO.buyGoods:
+    => null total update players
+
+PlayerDAO.buyGoods:
+    => this trade will success
+DEBUG 2022-05-23 15:54:25,698 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Opening JDBC Connection
+DEBUG 2022-05-23 15:54:25,698 org.apache.ibatis.datasource.pooled.PooledDataSource: Checked out connection 1287934450 from pool.
+DEBUG 2022-05-23 15:54:25,698 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Setting autocommit to false on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,698 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player where `id` = ? for update
+DEBUG 2022-05-23 15:54:25,698 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 2(String)
+DEBUG 2022-05-23 15:54:25,699 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+DEBUG 2022-05-23 15:54:25,700 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: select id, coins, goods from player where `id` = ? for update
+DEBUG 2022-05-23 15:54:25,700 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 1(String)
+DEBUG 2022-05-23 15:54:25,701 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==      Total: 1
+DEBUG 2022-05-23 15:54:25,701 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: update player set coins = ?, goods = ? where id = ?
+DEBUG 2022-05-23 15:54:25,701 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 0(Long), 2(Long), 1(String)
+DEBUG 2022-05-23 15:54:25,702 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==    Updates: 1
+DEBUG 2022-05-23 15:54:25,702 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==>  Preparing: update player set coins = ?, goods = ? where id = ?
+DEBUG 2022-05-23 15:54:25,702 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: ==> Parameters: 114614(Long), 18(Long), 2(String)
+DEBUG 2022-05-23 15:54:25,702 org.apache.ibatis.logging.jdbc.BaseJdbcLogger: <==    Updates: 1
+APP: buyGoods --> sell: 2, buy: 1, amount: 2, price: 100
+DEBUG 2022-05-23 15:54:25,703 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Committing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+APP: COMMIT;
+DEBUG 2022-05-23 15:54:25,704 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Resetting autocommit to true on JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,704 org.apache.ibatis.transaction.jdbc.JdbcTransaction: Closing JDBC Connection [com.mysql.jdbc.JDBC4Connection@4cc451f2]
+DEBUG 2022-05-23 15:54:25,704 org.apache.ibatis.datasource.pooled.PooledDataSource: Returned connection 1287934450 to pool.
+PlayerDAO.buyGoods:
+    => 2 total update players
+```
+
 ## spring-jpa-hibernate request
 
 ```
