@@ -12,10 +12,19 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: gen
+.PHONY: gen build run
+
+all:
+	make build run
 
 gen:
 	rm -f src/main/java/com/pingcap/dao/Player.java
 	rm -f src/main/java/com/pingcap/dao/PlayerMapper.java
 	rm -f src/main/resources/mapper/PlayerMapper.xml
 	mvn mybatis-generator:generate
+
+build:
+	mvn clean package
+
+run:
+	java -jar target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar

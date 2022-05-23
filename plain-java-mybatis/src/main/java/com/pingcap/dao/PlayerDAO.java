@@ -17,8 +17,6 @@ package com.pingcap.dao;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
@@ -105,7 +103,7 @@ public class PlayerDAO {
             playerMapperEx.updateByPrimaryKey(sellPlayer);
 
             System.out.printf("APP: buyGoods --> sell: %s, buy: %s, amount: %d, price: %d\n", sellId, buyId, amount, price);
-            return 0;
+            return 2;
         };
     }
 
