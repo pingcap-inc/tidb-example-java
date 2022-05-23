@@ -67,7 +67,7 @@
         <artifactId>mybatis-generator-maven-plugin</artifactId>
         <version>1.4.1</version>
         <configuration>
-          <configurationFile>src/main/resources/PlayerGenerator.xml</configurationFile>
+          <configurationFile>src/main/resources/mybatis-generator.xml</configurationFile>
           <verbose>true</verbose>
           <overwrite>true</overwrite>
         </configuration>

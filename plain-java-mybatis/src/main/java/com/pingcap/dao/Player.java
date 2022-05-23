@@ -7,6 +7,16 @@ public class Player {
 
     private Long goods;
 
+    public Player(String id, Long coins, Long goods) {
+        this.id = id;
+        this.coins = coins;
+        this.goods = goods;
+    }
+
+    public Player() {
+        super();
+    }
+
     public String getId() {
         return id;
     }
