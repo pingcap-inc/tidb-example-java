@@ -24,7 +24,7 @@
 
         context.id: A unique identifier you like
         context.targetRuntime: Used to specify the runtime target for generated code.
-            It has MyBatis3DynamicSql / MyBatis3Kotlin / MyBatis3 / MyBatis3Simple 4 options to select.
+            It has MyBatis3DynamicSql / MyBatis3Kotlin / MyBatis3 / MyBatis3Simple 4 selection to choice.
     -->
     <context id="simple" targetRuntime="MyBatis3">
         <!--
@@ -51,18 +51,42 @@
 
         <!--
             <javaModelGenerator/> entire document: https://mybatis.org/generator/configreference/javaModelGenerator.html
+            Model code file will be generated at ${targetProject}/${targetPackage}
 
-            javaModelGenerator.driverClass: The fully qualified class name for the JDBC driver used to access the database.
-                Used mysql-connector-java:5.1.49, should specify JDBC is com.mysql.jdbc.Driver
-            jdbcConnection.connectionURL: The JDBC connection URL used to access the database.
+            javaModelGenerator:
+                - property(constructorBased): If it's true, generator will create constructor function in model
         -->
         <javaModelGenerator targetPackage="com.pingcap.model" targetProject="src/main/java">
             <property name="constructorBased" value="true"/>
         </javaModelGenerator>
 
+        <!--
+            <sqlMapGenerator/> entire document: https://mybatis.org/generator/configreference/sqlMapGenerator.html
+            XML SQL mapper file will be generated at ${targetProject}/${targetPackage}
+        -->
         <sqlMapGenerator targetPackage="." targetProject="src/main/resources/mapper"/>
+
+        <!--
+            <javaClientGenerator/> entire document: https://mybatis.org/generator/configreference/javaClientGenerator.html
+            Java code mapper interface file will be generated at ${targetProject}/${targetPackage}
+
+            javaClientGenerator.type (context.targetRuntime is MyBatis3):
+                This attribute indicated Mybatis how to implement interface.
+                It has ANNOTATEDMAPPER / MIXEDMAPPER / XMLMAPPER 3 selection to choice.
+        -->
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.pingcap.model" targetProject="src/main/java"/>
 
+        <!--
+            <table/> entire document: https://mybatis.org/generator/configreference/table.html
+
+            table.tableName: The name of the database table.
+            table.domainObjectName: The base name from which generated object names will be generated. If not specified, MBG will generate a name automatically based on the tableName.
+            table.enableCountByExample: Signifies whether a count by example statement should be generated.
+            table.enableUpdateByExample: Signifies whether an update by example statement should be generated.
+            table.enableDeleteByExample: Signifies whether a delete by example statement should be generated.
+            table.enableSelectByExample: Signifies whether a select by example statement should be generated.
+            table.selectByExampleQueryId: This value will be added to the select list of the select by example statement in this form: "'<value>' as QUERYID".
+        -->
         <table tableName="player" domainObjectName="Player"
                enableCountByExample="false" enableUpdateByExample="false"
                enableDeleteByExample="false" enableSelectByExample="false"
