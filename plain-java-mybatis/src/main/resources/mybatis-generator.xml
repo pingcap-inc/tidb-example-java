@@ -19,21 +19,49 @@
 -->
 
 <generatorConfiguration>
+    <!--
+        <context/> entire document: https://mybatis.org/generator/configreference/context.html
+
+        context.id: A unique identifier you like
+        context.targetRuntime: Used to specify the runtime target for generated code.
+            It has MyBatis3DynamicSql / MyBatis3Kotlin / MyBatis3 / MyBatis3Simple 4 options to select.
+    -->
     <context id="simple" targetRuntime="MyBatis3">
+        <!--
+            <commentGenerator/> entire document: https://mybatis.org/generator/configreference/commentGenerator.html
+
+            commentGenerator:
+                - property(suppressDate): remove timestamp in comments
+                - property(suppressAllComments): remove all comments
+        -->
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true" />
         </commentGenerator>
 
+        <!--
+            <jdbcConnection/> entire document: https://mybatis.org/generator/configreference/jdbcConnection.html
+
+            jdbcConnection.driverClass: The fully qualified class name for the JDBC driver used to access the database.
+                Used mysql-connector-java:5.1.49, should specify JDBC is com.mysql.jdbc.Driver
+            jdbcConnection.connectionURL: The JDBC connection URL used to access the database.
+        -->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
             connectionURL="jdbc:mysql://localhost:4000/test?user=root" />
 
-        <javaModelGenerator targetPackage="com.pingcap.dao" targetProject="src/main/java">
+        <!--
+            <javaModelGenerator/> entire document: https://mybatis.org/generator/configreference/javaModelGenerator.html
+
+            javaModelGenerator.driverClass: The fully qualified class name for the JDBC driver used to access the database.
+                Used mysql-connector-java:5.1.49, should specify JDBC is com.mysql.jdbc.Driver
+            jdbcConnection.connectionURL: The JDBC connection URL used to access the database.
+        -->
+        <javaModelGenerator targetPackage="com.pingcap.model" targetProject="src/main/java">
             <property name="constructorBased" value="true"/>
         </javaModelGenerator>
 
         <sqlMapGenerator targetPackage="." targetProject="src/main/resources/mapper"/>
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.pingcap.dao" targetProject="src/main/java"/>
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.pingcap.model" targetProject="src/main/java"/>
 
         <table tableName="player" domainObjectName="Player"
                enableCountByExample="false" enableUpdateByExample="false"

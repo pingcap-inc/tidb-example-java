@@ -124,9 +124,9 @@ plain-java-mybatis [expected output](./Expected-Output.md#plain-java-mybatis)
 #### Java Code
 
 - [Main Class](./plain-java-mybatis/src/main/java/com/pingcap/MybatisExample.java)
-- [Player Data Model (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/dao/Player.java)
-- [Player Mapper Interface (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/dao/PlayerMapper.java)
-- [Player Mapper Interface Extend](./plain-java-mybatis/src/main/java/com/pingcap/dao/PlayerMapperEx.java)
+- [Player Data Model (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/model/Player.java)
+- [Player Mapper Interface (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/model/PlayerMapper.java)
+- [Player Mapper Interface Extend](./plain-java-mybatis/src/main/java/com/pingcap/model/PlayerMapperEx.java)
 - [Player DAO](./plain-java-mybatis/src/main/java/com/pingcap/dao/PlayerDAO.java)
 
 ## spring-jpa-hibernate

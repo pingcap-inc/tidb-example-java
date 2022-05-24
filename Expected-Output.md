@@ -450,7 +450,7 @@ DEBUG 2022-05-23 15:54:25,480 org.apache.ibatis.io.DefaultVFS: Found resource: /
 DEBUG 2022-05-23 15:54:25,480 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerDAO$NotEnoughException.class
 DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/Player.class
 DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.DefaultVFS: Found resource: /com/pingcap/dao/PlayerMapper.class
-DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerMapperEx matches criteria [is assignable to Object]
+DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.model.PlayerMapperEx matches criteria [is assignable to Object]
 DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerDAO matches criteria [is assignable to Object]
 DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.PlayerDAO$NotEnoughException matches criteria [is assignable to Object]
 DEBUG 2022-05-23 15:54:25,481 org.apache.ibatis.io.ResolverUtil: Checking to see if class com.pingcap.dao.Player matches criteria [is assignable to Object]

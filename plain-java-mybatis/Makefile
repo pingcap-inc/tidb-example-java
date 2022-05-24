@@ -22,8 +22,8 @@ mysql:
 	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 gen:
-	rm -f src/main/java/com/pingcap/dao/Player.java
-	rm -f src/main/java/com/pingcap/dao/PlayerMapper.java
+	rm -f src/main/java/com/pingcap/model/Player.java
+	rm -f src/main/java/com/pingcap/model/PlayerMapper.java
 	rm -f src/main/resources/mapper/PlayerMapper.xml
 	mvn mybatis-generator:generate
 

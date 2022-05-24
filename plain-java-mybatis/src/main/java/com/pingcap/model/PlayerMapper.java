@@ -1,6 +1,6 @@
-package com.pingcap.dao;
+package com.pingcap.model;
 
-import com.pingcap.dao.Player;
+import com.pingcap.model.Player;
 
 public interface PlayerMapper {
     int deleteByPrimaryKey(String id);

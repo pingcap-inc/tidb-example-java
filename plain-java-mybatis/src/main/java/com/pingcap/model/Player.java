@@ -1,4 +1,4 @@
-package com.pingcap.dao;
+package com.pingcap.model;
 
 public class Player {
     private String id;

@@ -14,6 +14,8 @@
 
 package com.pingcap.dao;
 
+import com.pingcap.model.Player;
+import com.pingcap.model.PlayerMapperEx;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
