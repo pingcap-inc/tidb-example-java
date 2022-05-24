@@ -1,27 +1,12 @@
 # tidb-example-java
 
-* [tidb-example-java](#tidb-example-java)
-   * [Outline](#outline)
-   * [Dependency](#dependency)
-   * [plain-java-jdbc](#plain-java-jdbc)
-      * [Running way](#running-way)
-      * [Expected output](#expected-output)
-      * [Code](#code)
-   * [plain-java-hibernate](#plain-java-hibernate)
-      * [Running way](#running-way-1)
-      * [Expected output](#expected-output-1)
-      * [Code](#code-1)
-   * [spring-jpa-hibernate](#spring-jpa-hibernate)
-      * [Running way](#running-way-2)
-      * [Expected output](#expected-output-2)
-      * [Code](#code-2)
-
 ## Outline
 
 It's an example for Java and TiDB. Contains subproject:
 
 - [plain-java-jdbc](#plain-java-jdbc)
 - [plain-java-hibernate](#plain-java-hibernate)
+- [plain-java-mybatis](#plain-java-mybatis)
 - [spring-jpa-hibernate](#spring-jpa-hibernate)
 
 We use different frameworks or libraries to implement similar processes to reflect 
@@ -97,6 +82,52 @@ plain-java-hibernate [expected output](./Expected-Output.md#plain-java-hibernate
 - [Main Class](./plain-java-hibernate/src/main/java/com/pingcap/App.java)
 - [Data Access Object](./plain-java-hibernate/src/main/java/com/pingcap/PlayerDAO.java)
 - [Data Entity](./plain-java-hibernate/src/main/java/com/pingcap/PlayerBean.java)
+
+## plain-java-mybatis
+
+It's an example used plain Java and Mybatis to connect TiDB.
+
+### Running way
+
+1. Makefile(recommend)
+    - Run `make plain-java-mybatis`
+
+2. Manual
+    - Into `plain-java-mybatis`
+    - Run `mvn clean package`
+    - Run `java -jar target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar`
+
+### Code generate
+
+1. Makefile(recommend)
+    - Run `make plain-java-mybatis-gen`
+
+2. Manual
+    - Into `plain-java-mybatis`
+    - Remove `src/main/java/com/pingcap/dao/Player.java`
+    - Remove `src/main/java/com/pingcap/dao/PlayerMapper.java`
+    - Remove `src/main/resources/mapper/PlayerMapper.xml`
+    - Run `mvn mybatis-generator:generate`
+
+### Expected output
+plain-java-mybatis [expected output](./Expected-Output.md#plain-java-mybatis)
+
+### Code
+
+#### Config
+
+- [Mybatis Generator Config](./plain-java-mybatis/src/main/resources/mybatis-generator.xml)
+- [Mybatis Config](./plain-java-mybatis/src/main/resources/mybatis-config.xml)
+- [Player Mapper (Auto-generated code)](./plain-java-mybatis/src/main/resources/mapper/PlayerMapper.xml)
+- [Player Mapper Extend](./plain-java-mybatis/src/main/resources/mapper/PlayerMapperEx.xml)
+
+#### Java Code
+
+- [Main Class](./plain-java-mybatis/src/main/java/com/pingcap/MybatisExample.java)
+- [Player Data Model (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/model/Player.java)
+- [Player Mapper Interface (Auto-generated code)](./plain-java-mybatis/src/main/java/com/pingcap/model/PlayerMapper.java)
+- [Player Mapper Interface Extend](./plain-java-mybatis/src/main/java/com/pingcap/model/PlayerMapperEx.java)
+- [Player DAO](./plain-java-mybatis/src/main/java/com/pingcap/dao/PlayerDAO.java)
 
 ## spring-jpa-hibernate
 

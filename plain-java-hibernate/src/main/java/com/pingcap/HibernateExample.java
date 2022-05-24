@@ -128,8 +128,11 @@ public class HibernateExample
 
         public Function<Session, Object> buyGoods(String sellId, String buyId, Integer amount, Integer price) throws JDBCException {
             return session -> {
-                PlayerBean sellPlayer = session.get(PlayerBean.class, sellId);
-                PlayerBean buyPlayer = session.get(PlayerBean.class, buyId);
+                NativeQuery<PlayerBean> playerQueryWithLock = session.createNativeQuery("SELECT * FROM player_hibernate WHERE `id` = :id FOR UPDATE", PlayerBean.class);
+                playerQueryWithLock.setParameter("id", sellId);
+                PlayerBean sellPlayer = playerQueryWithLock.getSingleResult();
+                playerQueryWithLock.setParameter("id", buyId);
+                PlayerBean buyPlayer = playerQueryWithLock.getSingleResult();
 
                 if (buyPlayer == null || sellPlayer == null) {
                     throw new NotEnoughException("sell or buy player not exist");
@@ -148,7 +151,7 @@ public class HibernateExample
                 session.persist(sellPlayer);
 
                 System.out.printf("APP: buyGoods --> sell: %s, buy: %s, amount: %d, price: %d\n", sellId, buyId, amount, price);
-                return 0;
+                return 2;
             };
         }
 
