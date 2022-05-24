@@ -12,28 +12,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: plain-java-jdbc plain-java-jdbc-bookshop plain-java-hibernate plain-java-mybatis plain-java-mybatis-gen spring-jpa-hibernate request stop
+.PHONY: all gen build run
 
-plain-java-jdbc:
-	$(MAKE) -C plain-java-jdbc
+all:
+	make mysql gen build run
 
-plain-java-jdbc-bookshop:
-	$(MAKE) -C plain-java-jdbc-bookshop
+mysql:
+	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
-plain-java-hibernate:
-	$(MAKE) -C plain-java-hibernate
+gen:
+	rm -f src/main/java/com/pingcap/model/Player.java
+	rm -f src/main/java/com/pingcap/model/PlayerMapper.java
+	rm -f src/main/resources/mapper/PlayerMapper.xml
+	mvn mybatis-generator:generate
 
-plain-java-mybatis:
-	$(MAKE) -C plain-java-mybatis
+build:
+	mvn clean package
 
-plain-java-mybatis-gen:
-	$(MAKE) -C plain-java-mybatis gen
-
-spring-jpa-hibernate:
-	$(MAKE) -C spring-jpa-hibernate
-
-request:
-	$(MAKE) -C spring-jpa-hibernate request
-
-stop:
-	$(MAKE) -C spring-jpa-hibernate stop
+run:
+	java -jar target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
