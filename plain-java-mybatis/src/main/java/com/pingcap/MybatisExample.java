@@ -39,7 +39,7 @@ public class MybatisExample {
 
         // Create a player who has 1 coin and 1 goods.
         playerDAO.runTransaction(sessionFactory, playerDAO.createPlayers(
-                Collections.singletonList(new Player("test", 1L, 1L))));
+                Collections.singletonList(new Player("test", 1, 1))));
 
         // Get a player.
         Player testPlayer = (Player)playerDAO.runTransaction(sessionFactory, playerDAO.getPlayerByID("test"));
@@ -57,8 +57,8 @@ public class MybatisExample {
 
         // Player 1: id is "1", has only 100 coins.
         // Player 2: id is "2", has 114514 coins, and 20 goods.
-        Player player1 = new Player("1", 100L, 0L);
-        Player player2 = new Player("2", 114514L, 20L);
+        Player player1 = new Player("1", 100, 0);
+        Player player2 = new Player("2", 114514, 20);
 
         // Create two players "by hand", using the INSERT statement on the backend.
         int addedCount = (Integer)playerDAO.runTransaction(sessionFactory,

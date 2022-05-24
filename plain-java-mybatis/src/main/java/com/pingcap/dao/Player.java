@@ -3,11 +3,11 @@ package com.pingcap.dao;
 public class Player {
     private String id;
 
-    private Long coins;
+    private Integer coins;
 
-    private Long goods;
+    private Integer goods;
 
-    public Player(String id, Long coins, Long goods) {
+    public Player(String id, Integer coins, Integer goods) {
         this.id = id;
         this.coins = coins;
         this.goods = goods;
@@ -25,19 +25,19 @@ public class Player {
         this.id = id;
     }
 
-    public Long getCoins() {
+    public Integer getCoins() {
         return coins;
     }
 
-    public void setCoins(Long coins) {
+    public void setCoins(Integer coins) {
         this.coins = coins;
     }
 
-    public Long getGoods() {
+    public Integer getGoods() {
         return goods;
     }
 
-    public void setGoods(Long goods) {
+    public void setGoods(Integer goods) {
         this.goods = goods;
     }
 }

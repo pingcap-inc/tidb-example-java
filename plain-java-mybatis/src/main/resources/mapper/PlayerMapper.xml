@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.pingcap.dao.Player">
     <constructor>
       <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="coins" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="goods" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="coins" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goods" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">
@@ -24,7 +24,7 @@
   <insert id="insert" parameterType="com.pingcap.dao.Player">
     insert into player (id, coins, goods
       )
-    values (#{id,jdbcType=VARCHAR}, #{coins,jdbcType=BIGINT}, #{goods,jdbcType=BIGINT}
+    values (#{id,jdbcType=VARCHAR}, #{coins,jdbcType=INTEGER}, #{goods,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pingcap.dao.Player">
@@ -45,10 +45,10 @@
         #{id,jdbcType=VARCHAR},
       </if>
       <if test="coins != null">
-        #{coins,jdbcType=BIGINT},
+        #{coins,jdbcType=INTEGER},
       </if>
       <if test="goods != null">
-        #{goods,jdbcType=BIGINT},
+        #{goods,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -56,18 +56,18 @@
     update player
     <set>
       <if test="coins != null">
-        coins = #{coins,jdbcType=BIGINT},
+        coins = #{coins,jdbcType=INTEGER},
       </if>
       <if test="goods != null">
-        goods = #{goods,jdbcType=BIGINT},
+        goods = #{goods,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pingcap.dao.Player">
     update player
-    set coins = #{coins,jdbcType=BIGINT},
-      goods = #{goods,jdbcType=BIGINT}
+    set coins = #{coins,jdbcType=INTEGER},
+      goods = #{goods,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

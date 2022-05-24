@@ -4,8 +4,8 @@
   <resultMap id="BaseResultMap" type="com.pingcap.dao.Player">
     <constructor>
       <idArg column="id" javaType="java.lang.String" jdbcType="VARCHAR" />
-      <arg column="coins" javaType="java.lang.Long" jdbcType="BIGINT" />
-      <arg column="goods" javaType="java.lang.Long" jdbcType="BIGINT" />
+      <arg column="coins" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goods" javaType="java.lang.Integer" jdbcType="INTEGER" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List">

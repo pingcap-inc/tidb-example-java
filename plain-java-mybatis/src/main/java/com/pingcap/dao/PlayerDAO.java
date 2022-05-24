@@ -94,16 +94,17 @@ public class PlayerDAO {
                 throw new NotEnoughException("coins or goods not enough, rollback");
             }
 
+            int affectRows = 0;
             buyPlayer.setGoods(buyPlayer.getGoods() + amount);
             buyPlayer.setCoins(buyPlayer.getCoins() - price);
-            playerMapperEx.updateByPrimaryKey(buyPlayer);
+            affectRows += playerMapperEx.updateByPrimaryKey(buyPlayer);
 
             sellPlayer.setGoods(sellPlayer.getGoods() - amount);
             sellPlayer.setCoins(sellPlayer.getCoins() + price);
-            playerMapperEx.updateByPrimaryKey(sellPlayer);
+            affectRows += playerMapperEx.updateByPrimaryKey(sellPlayer);
 
             System.out.printf("APP: buyGoods --> sell: %s, buy: %s, amount: %d, price: %d\n", sellId, buyId, amount, price);
-            return 2;
+            return affectRows;
         };
     }
 

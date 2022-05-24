@@ -15,7 +15,11 @@
 .PHONY: all gen build run
 
 all:
-	make build run
+	make mysql gen build run
+
+mysql:
+	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 gen:
 	rm -f src/main/java/com/pingcap/dao/Player.java
