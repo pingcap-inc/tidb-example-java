@@ -35,7 +35,7 @@ public class MybatisExample {
         // 2. And then, create DAO to manager your data
         PlayerDAO playerDAO = new PlayerDAO();
 
-        // 3. Run some simple example.
+        // 3. Run some simple examples.
 
         // Create a player who has 1 coin and 1 goods.
         playerDAO.runTransaction(sessionFactory, playerDAO.createPlayers(
@@ -66,13 +66,13 @@ public class MybatisExample {
         System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
         // Player 1 wants to buy 10 goods from player 2.
-        // It will cost 500 coins, but player 1 can't afford it.
+        // It will cost 500 coins, but player 1 cannot afford it.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
         Integer updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
                 playerDAO.buyGoods(player2.getId(), player1.getId(), 10, 500));
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
 
-        // So player 1 have to reduce his incoming quantity to two.
+        // So player 1 has to reduce the incoming quantity to two.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
         updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
                 playerDAO.buyGoods(player2.getId(), player1.getId(), 2, 100));

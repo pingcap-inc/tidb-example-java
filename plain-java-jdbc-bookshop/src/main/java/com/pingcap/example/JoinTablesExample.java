@@ -51,7 +51,7 @@ public class JoinTablesExample {
     // 2. And then, create DAO to manager your data.
     BookDAO bookDAO = new BookDAO(datasource);
 
-    // 3. Run some simple example.
+    // 3. Run some simple examples.
     List<Book> books = bookDAO.getLatestBooksWithAverageScore();
     System.out.printf("Get %d books:\n", books.size());
     System.out.println(Arrays.toString(books.toArray()));

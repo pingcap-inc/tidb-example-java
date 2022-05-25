@@ -92,7 +92,7 @@ public class EffectWriteSkew {
                 String comment = txnID == 2 ? "    " : "" + "/* txn #{txn_id} */ ";
                 connection.createStatement().executeUpdate(comment + "BEGIN pessimistic");
 
-                // Txn 1 should be waiting for txn 2 done
+                // Txn 1 should be waiting until txn 2 is done.
                 if (txnID == 1) {
                     txn1Pass.acquire();
                 }
@@ -122,7 +122,7 @@ public class EffectWriteSkew {
                     }
                 }
 
-                // Txn 2 done, let txn 1 run again
+                // Txn 2 is done. Let txn 1 run again.
                 if (txnID == 2) {
                     txn1Pass.release();
                 }
