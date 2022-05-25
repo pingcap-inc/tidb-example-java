@@ -388,9 +388,9 @@ public class JDBCExample
         // 2. And then, create DAO to manager your data.
         PlayerDAO dao = new PlayerDAO(mysqlDataSource);
 
-        // 3. Run some simple example.
+        // 3. Run some simple examples.
 
-        // Create a player, has a coin and a goods.
+        // Create a player, who has a coin and a goods.
         dao.createPlayers(Collections.singletonList(new PlayerBean("test", 1, 1)));
 
         // Get a player.
@@ -398,7 +398,7 @@ public class JDBCExample
         System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
                 testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
 
-        // Create players with bulk inserts, insert 1919 players totally, and per batch for 114 players.
+        // Create players with bulk inserts. Insert 1919 players totally, with 114 players per batch.
         int addedCount = dao.bulkInsertRandomPlayers(1919, 114);
         System.out.printf("PlayerDAO.bulkInsertRandomPlayers:\n    => %d total inserted players\n", addedCount);
 
@@ -421,12 +421,12 @@ public class JDBCExample
         System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
         // Player 1 wants to buy 10 goods from player 2.
-        // It will cost 500 coins, but player 1 can't afford it.
+        // It will cost 500 coins, but player 1 cannot afford it.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
         int updatedCount = dao.buyGoods(player2.getId(), player1.getId(), 10, 500);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
 
-        // So player 1 have to reduce his incoming quantity to two.
+        // So player 1 has to reduce the incoming quantity to two.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
         updatedCount = dao.buyGoods(player2.getId(), player1.getId(), 2, 100);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
