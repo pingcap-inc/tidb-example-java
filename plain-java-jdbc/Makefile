@@ -18,8 +18,8 @@ all:
 	make prepare build run
 
 prepare:
-	mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 	mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+	mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 build:
 	mvn clean package

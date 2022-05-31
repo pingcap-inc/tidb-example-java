@@ -6,8 +6,8 @@
 cheese@CheesedeMacBook-Pro tidb-example-java % make plain-java-jdbc
 /Library/Developer/CommandLineTools/usr/bin/make -C plain-java-jdbc
 make prepare build run
-mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 mvn clean package
 [INFO] Scanning for projects...
 [INFO] 
