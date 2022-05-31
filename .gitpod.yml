@@ -22,15 +22,13 @@ tasks:
         cd plain-java-jdbc
         code src/main/resources/dbinit.sql
         code src/main/java/com/pingcap/JDBCExample.java
-        make mysql
+        make all
       elif [ "$targetMode" == "plain-java-hibernate" ]
       then
-        cd plain-java-hibernate
-        make
+        make plain-java-hibernate
       elif [ "$targetMode" == "spring-jpa-hibernate" ]
       then
-        cd spring-jpa-hibernate
-        make
+        make spring-jpa-hibernate
       fi
 
 ports:
