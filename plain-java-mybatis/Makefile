@@ -18,8 +18,8 @@ all:
 	make mysql gen build run
 
 mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
-	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
+	mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+	mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 gen:
 	rm -f src/main/java/com/pingcap/model/Player.java
