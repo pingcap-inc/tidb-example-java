@@ -14,68 +14,49 @@
 
 package com.pingcap;
 
-import com.pingcap.dao.PlayerDAO;
-import com.pingcap.model.Player;
+import com.pingcap.model.AutoPlayer;
+import com.pingcap.model.AutoPlayerMapper;
 import org.apache.ibatis.io.Resources;
+import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MybatisExample {
     public static void main( String[] args ) throws IOException {
-        // 1. Create a SqlSessionFactory based on our mybatis-config.xml configuration
-        // file, which defines how to connect to the database.
         InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
         SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
-        // 2. And then, create DAO to manager your data
-        PlayerDAO playerDAO = new PlayerDAO();
+        SqlSession session = sessionFactory.openSession(false);
+        AutoPlayerMapper autoPlayerMapperEx = session.getMapper(AutoPlayerMapper.class);
 
-        // 3. Run some simple examples.
+        AutoPlayer player = new AutoPlayer();
+        player.setCoins(1);
+        player.setGoods(1);
 
-        // Create a player who has 1 coin and 1 goods.
-        playerDAO.runTransaction(sessionFactory, playerDAO.createPlayers(
-                Collections.singletonList(new Player("test", 1, 1))));
+        System.out.println("single:");
+        System.out.println("\taffect rows: " + autoPlayerMapperEx.insert(player));
+        System.out.println("\tgenerated id: " + player.getId());
 
-        // Get a player.
-        Player testPlayer = (Player)playerDAO.runTransaction(sessionFactory, playerDAO.getPlayerByID("test"));
-        System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
-                testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
+        List<AutoPlayer> playerList = new ArrayList<>();
+        for (int i = 2 ; i < 10; i++) {
+            AutoPlayer playerItem = new AutoPlayer();
+            playerItem.setCoins(i);
+            playerItem.setGoods(i);
 
-        // Count players amount.
-        Integer count = (Integer)playerDAO.runTransaction(sessionFactory, playerDAO.countPlayers());
-        System.out.printf("PlayerDAO.countPlayers:\n    => %d total players\n", count);
+            playerList.add(playerItem);
+        }
 
-        // Print 3 players.
-        playerDAO.runTransaction(sessionFactory, playerDAO.printPlayers(3));
+        System.out.println("batch:");
+        System.out.println("\taffect rows: " + autoPlayerMapperEx.insertBatch(playerList));
+        for (AutoPlayer autoPlayer: playerList) {
+            System.out.println("\tgenerated id: " + autoPlayer.getId());
+        }
 
-        // 4. Getting further.
-
-        // Player 1: id is "1", has only 100 coins.
-        // Player 2: id is "2", has 114514 coins, and 20 goods.
-        Player player1 = new Player("1", 100, 0);
-        Player player2 = new Player("2", 114514, 20);
-
-        // Create two players "by hand", using the INSERT statement on the backend.
-        int addedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.createPlayers(Arrays.asList(player1, player2)));
-        System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
-
-        // Player 1 wants to buy 10 goods from player 2.
-        // It will cost 500 coins, but player 1 cannot afford it.
-        System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
-        Integer updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.buyGoods(player2.getId(), player1.getId(), 10, 500));
-        System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
-
-        // So player 1 has to reduce the incoming quantity to two.
-        System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
-        updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.buyGoods(player2.getId(), player1.getId(), 2, 100));
-        System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
+        session.commit();
     }
 }

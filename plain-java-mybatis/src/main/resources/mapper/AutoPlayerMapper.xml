@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pingcap.model.AutoPlayerMapper">
+  <resultMap id="BaseResultMap" type="com.pingcap.model.AutoPlayer">
+    <constructor>
+      <idArg column="id" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="coins" javaType="java.lang.Integer" jdbcType="INTEGER" />
+      <arg column="goods" javaType="java.lang.Integer" jdbcType="INTEGER" />
+    </constructor>
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, coins, goods
+  </sql>
+  <insert id="insert" parameterType="com.pingcap.model.AutoPlayer" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into auto_player (coins, goods
+      )
+    values (#{coins,jdbcType=INTEGER}, #{goods,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertBatch" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    insert into auto_player (coins, goods
+    )
+    values
+    <foreach collection="list" item="item" separator=",">
+      (#{item.coins,jdbcType=INTEGER}, #{item.goods,jdbcType=INTEGER})
+    </foreach>
+  </insert>
+</mapper>

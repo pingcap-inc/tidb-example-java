@@ -29,7 +29,7 @@
     </settings>
 
     <typeAliases>
-        <package name="com.pingcap.dao"/>
+        <package name="com.pingcap.model"/>
     </typeAliases>
 
     <environments default="development">
@@ -49,6 +49,7 @@
     <mappers>
         <mapper resource="mapper/PlayerMapper.xml"/>
         <mapper resource="mapper/PlayerMapperEx.xml"/>
+        <mapper resource="mapper/AutoPlayerMapper.xml"/>
     </mappers>
 
 </configuration>
