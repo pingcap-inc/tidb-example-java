@@ -15,6 +15,7 @@
 .PHONY: keygen build run
 
 keygen:
+    rm -f src/main/resources/test-tidb.key
 	keytool -importcert -file cert.pem -keystore src/main/resources/test-tidb.key
 
 build:
