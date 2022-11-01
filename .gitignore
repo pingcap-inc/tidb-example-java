@@ -22,3 +22,5 @@ stylesheet.css
 
 # jenv local settings
 .java-version
+
+plain-java-jdbc-serverless-tier/src/main/resources/test-tidb.key
