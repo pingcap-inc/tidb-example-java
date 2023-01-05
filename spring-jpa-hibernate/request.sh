@@ -17,7 +17,7 @@
 echo "loop to create 10 players:"
 for((i=0;i<10;i++)); \
   do \
-    curl --location --request POST 'http://localhost:8080/player/' --header 'Content-Type: application/json' --data-raw '[{"coins":100,"goods":20}]'; \
+    curl --location --request POST 'http://localhost:8080/player' --header 'Content-Type: application/json' --data-raw '[{"coins":100,"goods":20}]'; \
   done
 
 printf "\n\n"
