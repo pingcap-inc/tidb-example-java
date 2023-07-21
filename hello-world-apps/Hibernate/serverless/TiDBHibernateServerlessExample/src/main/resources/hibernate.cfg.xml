@@ -8,9 +8,9 @@
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.TiDBDialect</property>
-        <property name="hibernate.connection.url">jdbc:mysql://gateway01.us-west-2.prod.aws.tidbcloud.com:4000/test?sslMode=VERIFY_IDENTITY&amp;enabledTLSProtocols=TLSv1.2,TLSv1.3</property>
-        <property name="hibernate.connection.username">22qBcsnfQ2fSHFa.root</property>
-        <property name="hibernate.connection.password">fJRdAw1IHJtmYhtD</property>
+        <property name="hibernate.connection.url">jdbc:mysql://${host}:4000/test?sslMode=VERIFY_IDENTITY&amp;enabledTLSProtocols=TLSv1.2,TLSv1.3</property>
+        <property name="hibernate.connection.username">${user}</property>
+        <property name="hibernate.connection.password">${password}</property>
         <property name="hibernate.connection.autocommit">false</property>
 
         <!-- Optional: Show SQL output for debugging -->

@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://gateway01.us-west-2.prod.aws.tidbcloud.com:4000/test?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3
-    username: 22qBcsnfQ2fSHFa.root
-    password: fJRdAw1IHJtmYhtD
+    url: jdbc:mysql://${host}:4000/test?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3
+    username: ${user}
+    password: ${password}
     driver-class-name: com.mysql.cj.jdbc.Driver

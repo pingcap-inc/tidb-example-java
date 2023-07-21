@@ -28,9 +28,9 @@
             <!-- Database pool -->
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
-                <property name="url" value="jdbc:mysql://gateway01.us-west-2.prod.aws.tidbcloud.com:4000/test?sslMode=VERIFY_IDENTITY&amp;enabledTLSProtocols=TLSv1.2,TLSv1.3"/>
-                <property name="username" value="22qBcsnfQ2fSHFa.root"/>
-                <property name="password" value="fJRdAw1IHJtmYhtD"/>
+                <property name="url" value="jdbc:mysql://${host}:4000/test?sslMode=VERIFY_IDENTITY&amp;enabledTLSProtocols=TLSv1.2,TLSv1.3"/>
+                <property name="username" value="${user}"/>
+                <property name="password" value="${password}"/>
             </dataSource>
         </environment>
     </environments>
