@@ -12,14 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all gen build run
+.PHONY: all prepare gen build run
 
 all:
-	make mysql gen build run
+	make prepare gen build run
 
-mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
-	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
+prepare:
+	mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+	mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 gen:
 	rm -f src/main/java/com/pingcap/model/Player.java

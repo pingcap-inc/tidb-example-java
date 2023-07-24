@@ -12,13 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all mysql build run
+.PHONY: all prepare build run
 
 all:
-	make build run
+	make prepare build run
 
-mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+prepare:
+	mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+	mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 
 build:
 	mvn clean package

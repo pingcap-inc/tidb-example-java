@@ -29,7 +29,7 @@ The process is as follows:
 
 - [Java 17](https://www.oracle.com/java/technologies/downloads/) ([OpenJDK](https://openjdk.java.net/) also supports)
 - [Maven](https://maven.apache.org/)
-- mysql client
+- mycli
 
 ## plain-java-jdbc
 

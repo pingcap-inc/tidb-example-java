@@ -5,8 +5,9 @@
 ```
 cheese@CheesedeMacBook-Pro tidb-example-java % make plain-java-jdbc
 /Library/Developer/CommandLineTools/usr/bin/make -C plain-java-jdbc
-make mysql build run
-mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+make prepare build run
+mycli --host 127.0.0.1 --port 4000 -u root --no-warn < src/main/resources/dbinit.sql
+mycli --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
 mvn clean package
 [INFO] Scanning for projects...
 [INFO] 
@@ -23,7 +24,7 @@ mvn clean package
 [INFO] 
 [INFO] --- maven-compiler-plugin:3.1:compile (default-compile) @ plain-java-jdbc ---
 [INFO] Changes detected - recompiling the module!
-[INFO] Compiling 3 source files to /Users/cheese/IdeaProjects/tidb-example-java/plain-java-jdbc/target/classes
+[INFO] Compiling 1 source file to /Users/cheese/IdeaProjects/tidb-example-java/plain-java-jdbc/target/classes
 [INFO] 
 [INFO] --- maven-resources-plugin:2.6:testResources (default-testResources) @ plain-java-jdbc ---
 [INFO] Using 'UTF-8' encoding to copy filtered resources.
@@ -40,7 +41,7 @@ mvn clean package
  T E S T S
 -------------------------------------------------------
 Running com.pingcap.AppTest
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.024 sec
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.022 sec
 
 Results :
 
@@ -55,8 +56,8 @@ Tests run: 1, Failures: 0, Errors: 0, Skipped: 0
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  1.654 s
-[INFO] Finished at: 2022-03-23T15:21:50+08:00
+[INFO] Total time:  1.799 s
+[INFO] Finished at: 2022-05-31T16:30:37+08:00
 [INFO] ------------------------------------------------------------------------
 java -jar target/plain-java-jdbc-0.0.1-jar-with-dependencies.jar
 
@@ -68,71 +69,71 @@ PlayerDAO.getPlayer:
     => goods: 1
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('a3e0204c-6ae8-40b9-b5f0-82b27c322733', 7130, 3033)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('6d2e7fee-619c-4d5b-a583-ae883e8d3ec0', 7630, 8354)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('b85731d2-9f8d-4caa-a3af-4e794fe77513', 7154, 8454)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('f0ce6a8c-acd4-4d79-b7f5-2855eea539a7', 5065, 7030)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('6b9e9704-7443-4188-8461-461886686707', 2495, 4159)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('68674ff8-9b0c-4ea9-8f5b-09a41c59417c', 7197, 3929)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('921b2b67-a3c3-40a0-a864-048ac0275e49', 3165, 3196)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('3d2d7b48-5f56-4055-b9be-ea94975eb498', 6515, 3065)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('08b89a63-04d7-4a28-a0ed-2bc2290a05b3', 6360, 8511)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('c2a71629-f4aa-44d1-b1e7-82b354ced9da', 8993, 1540)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('c8a9ecfd-4951-40c9-b6b2-bf2b25aa12a6', 286, 7687)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('f63401ec-aad6-4a75-bb5d-01e492239578', 2654, 7343)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('4d9d361f-c4ba-496b-bd07-32310bce280b', 1936, 5775)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('8e1eb450-7141-4181-9170-c05b36b3708e', 6582, 1717)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('7a42bf2f-4a59-4095-aa2a-b29399ad3b69', 6104, 433)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('fb9636cd-79bb-4aad-91b8-6e9ce0af32a0', 3579, 5805)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('301b45c3-358f-4fa5-a7f0-168d00541824', 6644, 9277)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('8f812d3d-9241-431a-abfe-5b187ac6d748', 3540, 8821)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('c075f09d-3014-45fc-947f-debe1760f2ed', 7729, 929)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('c7038d22-1bda-488e-9f7f-9f35e7f557c9', 437, 7100)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('df1ff19b-4a05-41b2-a1c5-b80aad1272e4', 8372, 3109)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('d468b4da-882a-4ef7-b4f0-b91282de89aa', 1003, 5628)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('b41b979f-40a6-4226-ae02-1130d4d00bb2', 6593, 2853)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('188d8934-6175-437d-b20d-f28b019eefcb', 7858, 3428)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('969e8ad4-b4f7-47c8-bc28-ff4b08f0b8e0', 5695, 8058)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('4a102df6-65e1-48d4-9b5b-385e9f7516f1', 4582, 5716)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('ad4d54e2-83e4-4367-a275-81591219dd0b', 7843, 5973)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('c3eafc1e-ce2d-4e38-91a6-b85f79a4882b', 5059, 9729)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('4b9b5bcc-8ecc-4d89-b2cb-285055e8492c', 2249, 185)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('eb3e2d7d-fa70-482a-9f0d-ede2bdf379ac', 6138, 5993)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('6c4154d2-6701-4a5f-928b-7353408c6195', 5555, 5684)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('9de37d0a-c4e0-46a0-8f0f-791e712a89fa', 8369, 1506)'
     => 114 row(s) updated in this batch
 
 PlayerDAO.bulkInsertRandomPlayers:
-    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('45f9c266-8047-4d9e-a86e-5780668be105', 5816, 8106)'
+    'com.mysql.cj.jdbc.ClientPreparedStatement: INSERT INTO player (id, coins, goods) VALUES ('6c0b2a6e-4cba-46e4-aac7-c57bfdbd7185', 2709, 7211)'
     => 114 row(s) updated in this batch
 PlayerDAO.bulkInsertRandomPlayers:
     => 1938 total inserted players
@@ -153,11 +154,13 @@ PlayerDAO.buyGoods:
     coins    =>        100
     goods    =>          0
 
+
 [buyGoods]:
     'check goods and coins enough'
     id       =>          2
     coins    =>     114514
     goods    =>         20
+
 [buyGoods] ERROR: { state => null, cause => null, message => buy player 1 coins not enough. }
 [buyGoods] Rollback
 PlayerDAO.buyGoods:
@@ -172,11 +175,13 @@ PlayerDAO.buyGoods:
     coins    =>        100
     goods    =>          0
 
+
 [buyGoods]:
     'check goods and coins enough'
     id       =>          2
     coins    =>     114514
     goods    =>         20
+
 
 [buyGoods]:
     'trade success'
