@@ -24,4 +24,4 @@ build:
 	mvn clean package
 
 run:
-	java -jar target/plain-java-jdbc-0.0.1-jar-with-dependencies.jar
+	java -jar target/plain-java-jdbc-jar-with-dependencies.jar
