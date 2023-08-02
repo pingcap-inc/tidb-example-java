@@ -22,3 +22,7 @@ stylesheet.css
 
 # jenv local settings
 .java-version
+
+# environment shell script
+
+env.sh

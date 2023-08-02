@@ -12,13 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all mysql build run
+.PHONY: all env build run
 
 all:
-	make build run
+	make env build run
 
-mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+env:
+	. ../env.sh
 
 build:
 	mvn clean package
