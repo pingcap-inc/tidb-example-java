@@ -12,13 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all env build run
+.PHONY: all build run
 
 all:
-	make env build run
-
-env:
-	. ../env.sh
+	. ../env.sh && make build run
 
 build:
 	mvn clean package

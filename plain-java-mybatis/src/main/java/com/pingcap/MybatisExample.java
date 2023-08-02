@@ -24,34 +24,35 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Properties;
 
 public class MybatisExample {
     public static void main( String[] args ) throws IOException {
         // 1. Create a SqlSessionFactory based on our mybatis-config.xml configuration
         // file, which defines how to connect to the database.
         InputStream inputStream = Resources.getResourceAsStream("mybatis-config.xml");
-        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+        SqlSessionFactory sessionFactory = new SqlSessionFactoryBuilder().build(inputStream, getTiDBProperties());
 
         // 2. And then, create DAO to manager your data
-        PlayerDAO playerDAO = new PlayerDAO();
+        PlayerDAO playerDAO = new PlayerDAO(sessionFactory);
+        playerDAO.recreateTable();
 
         // 3. Run some simple examples.
 
         // Create a player who has 1 coin and 1 goods.
-        playerDAO.runTransaction(sessionFactory, playerDAO.createPlayers(
-                Collections.singletonList(new Player("test", 1, 1))));
+        playerDAO.createPlayers(Collections.singletonList(new Player("test", 1, 1)));
 
         // Get a player.
-        Player testPlayer = (Player)playerDAO.runTransaction(sessionFactory, playerDAO.getPlayerByID("test"));
+        Player testPlayer = playerDAO.getPlayerByID("test");
         System.out.printf("PlayerDAO.getPlayer:\n    => id: %s\n    => coins: %s\n    => goods: %s\n",
                 testPlayer.getId(), testPlayer.getCoins(), testPlayer.getGoods());
 
         // Count players amount.
-        Integer count = (Integer)playerDAO.runTransaction(sessionFactory, playerDAO.countPlayers());
+        Integer count = playerDAO.countPlayers();
         System.out.printf("PlayerDAO.countPlayers:\n    => %d total players\n", count);
 
         // Print 3 players.
-        playerDAO.runTransaction(sessionFactory, playerDAO.printPlayers(3));
+        playerDAO.printPlayers(3);
 
         // 4. Getting further.
 
@@ -61,21 +62,57 @@ public class MybatisExample {
         Player player2 = new Player("2", 114514, 20);
 
         // Create two players "by hand", using the INSERT statement on the backend.
-        int addedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.createPlayers(Arrays.asList(player1, player2)));
+        int addedCount = playerDAO.createPlayers(Arrays.asList(player1, player2));
         System.out.printf("PlayerDAO.createPlayers:\n    => %d total inserted players\n", addedCount);
 
         // Player 1 wants to buy 10 goods from player 2.
         // It will cost 500 coins, but player 1 cannot afford it.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will fail");
-        Integer updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.buyGoods(player2.getId(), player1.getId(), 10, 500));
+        Integer updatedCount = playerDAO.buyGoods(player2.getId(), player1.getId(), 10, 500);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
 
         // So player 1 has to reduce the incoming quantity to two.
         System.out.println("\nPlayerDAO.buyGoods:\n    => this trade will success");
-        updatedCount = (Integer)playerDAO.runTransaction(sessionFactory,
-                playerDAO.buyGoods(player2.getId(), player1.getId(), 2, 100));
+        updatedCount = playerDAO.buyGoods(player2.getId(), player1.getId(), 2, 100);
         System.out.printf("PlayerDAO.buyGoods:\n    => %d total update players\n", updatedCount);
+    }
+
+    /**
+     * Get TiDB connection properties from environment variables.
+     * @return Properties
+     */
+    public static Properties getTiDBProperties() {
+        // 1. Get TiDB connection properties from environment variables.
+        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
+        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
+        String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
+        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
+        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
+
+        // 2. Create a JDBC URL based on the above properties.
+        StringBuilder tidbURLStringBuilder = new StringBuilder()
+                .append("jdbc:mysql://").append(tidbHost)
+                .append(":").append(tidbPort).append("/")
+                .append(tidbDatabase);
+
+        if (isServerless) {
+            tidbURLStringBuilder.append("?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3");
+        }
+
+        Properties properties = new Properties();
+        properties.setProperty("TIDB_URL", tidbURLStringBuilder.toString());
+        properties.setProperty("TIDB_USER", tidbUser);
+        properties.setProperty("TIDB_PASSWORD", tidbPassword);
+
+        System.out.println("TIDB_HOST: " + tidbHost);
+        System.out.println("TIDB_PORT: " + tidbPort);
+        System.out.println("TIDB_USER: " + tidbUser);
+        System.out.println("TIDB_PASSWORD: " + tidbPassword);
+        System.out.println("TIDB_DATABASE: " + tidbDatabase);
+        System.out.println("IS_SERVERLESS: " + isServerless);
+        System.out.println("TIDB_URL: " + tidbURLStringBuilder);
+
+        return properties;
     }
 }

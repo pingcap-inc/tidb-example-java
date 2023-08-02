@@ -26,17 +26,18 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.28</version>
+      <version>8.0.33</version>
     </dependency>
 
     <dependency>
       <groupId>org.hibernate.orm</groupId>
       <artifactId>hibernate-core</artifactId>
-      <version>6.1.6.Final</version>
+      <version>6.2.3.Final</version>
     </dependency>
   </dependencies>
 
   <build>
+    <finalName>plain-java-hibernate</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

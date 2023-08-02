@@ -12,23 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all gen build run
+.PHONY: all build run
 
 all:
-	make mysql gen build run
-
-mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
-	mysql --host 127.0.0.1 --port 4000 -u root -e "TRUNCATE test.player"
-
-gen:
-	rm -f src/main/java/com/pingcap/model/Player.java
-	rm -f src/main/java/com/pingcap/model/PlayerMapper.java
-	rm -f src/main/resources/mapper/PlayerMapper.xml
-	mvn mybatis-generator:generate
+	. ../env.sh && make build run
 
 build:
 	mvn clean package
 
 run:
-	java -jar target/plain-java-mybatis-0.0.1-jar-with-dependencies.jar
+	java -jar target/plain-java-mybatis-jar-with-dependencies.jar
