@@ -15,13 +15,13 @@
 .PHONY: all prepare build run
 
 all:
-	make prepare build run
+	. ../env.sh && make prepare build run
 
 prepare:
-	tiup demo bookshop prepare --drop-tables
+	tiup demo bookshop prepare -D $(TIDB_DB_NAME) -H $(TIDB_HOST) -P $(TIDB_PORT) -U $(TIDB_USER) -p $(TIDB_PASSWORD) --authors 0 --books 0 --orders 0 --users 0 --ratings 11451 --drop-tables
 
 build:
 	mvn clean package
 
 run:
-	java -jar target/plain-java-batch-delete-0.0.1-jar-with-dependencies.jar
+	java -jar target/plain-java-batch-delete-jar-with-dependencies.jar
