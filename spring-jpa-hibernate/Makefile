@@ -15,7 +15,7 @@
 .PHONY: all build run stop
 
 all:
-	make build run
+	. ../env.sh && make build run
 
 build:
 	mvn clean package

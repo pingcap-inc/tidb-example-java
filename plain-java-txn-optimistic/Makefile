@@ -15,7 +15,7 @@
 .PHONY: all prepare re-prepare build not-oversell oversell
 
 all:
-	make build not-oversell oversell
+	. ../env.sh && make build not-oversell oversell
 
 build:
 	mvn clean package

@@ -129,26 +129,13 @@ public class PessimisticTxnExample {
 
     public static HikariDataSource createHikariDataSourceByEnv() {
         // 1. Get TiDB connection properties from environment variables.
-        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
-        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        // 1. Get TiDB connection properties from environment variables.
+        String tidbJDBCURL = System.getenv().getOrDefault("TIDB_JDBC_URL", "jdbc:mysql://localhost:4000/test");
         String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
         String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
-        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
-        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
-
-        // 2. Create a JDBC URL based on the above properties.
-        StringBuilder tidbURLStringBuilder = new StringBuilder()
-                .append("jdbc:mysql://").append(tidbHost)
-                .append(":").append(tidbPort).append("/")
-                .append(tidbDatabase);
-
-        if (isServerless) {
-            tidbURLStringBuilder.append("?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3");
-        }
-
 
         HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl(tidbURLStringBuilder.toString());
+        ds.setJdbcUrl(tidbJDBCURL);
         ds.setUsername(tidbUser);
         ds.setPassword(tidbPassword);
 

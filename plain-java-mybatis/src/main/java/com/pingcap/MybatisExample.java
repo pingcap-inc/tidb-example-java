@@ -83,25 +83,12 @@ public class MybatisExample {
      */
     public static Properties getTiDBProperties() {
         // 1. Get TiDB connection properties from environment variables.
-        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
-        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        String tidbJDBCURL = System.getenv().getOrDefault("TIDB_JDBC_URL", "jdbc:mysql://localhost:4000/test");
         String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
         String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
-        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
-        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
-
-        // 2. Create a JDBC URL based on the above properties.
-        StringBuilder tidbURLStringBuilder = new StringBuilder()
-                .append("jdbc:mysql://").append(tidbHost)
-                .append(":").append(tidbPort).append("/")
-                .append(tidbDatabase);
-
-        if (isServerless) {
-            tidbURLStringBuilder.append("?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3");
-        }
 
         Properties properties = new Properties();
-        properties.setProperty("TIDB_URL", tidbURLStringBuilder.toString());
+        properties.setProperty("TIDB_URL", tidbJDBCURL);
         properties.setProperty("TIDB_USER", tidbUser);
         properties.setProperty("TIDB_PASSWORD", tidbPassword);
 
