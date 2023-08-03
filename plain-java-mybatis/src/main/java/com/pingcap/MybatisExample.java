@@ -105,14 +105,6 @@ public class MybatisExample {
         properties.setProperty("TIDB_USER", tidbUser);
         properties.setProperty("TIDB_PASSWORD", tidbPassword);
 
-        System.out.println("TIDB_HOST: " + tidbHost);
-        System.out.println("TIDB_PORT: " + tidbPort);
-        System.out.println("TIDB_USER: " + tidbUser);
-        System.out.println("TIDB_PASSWORD: " + tidbPassword);
-        System.out.println("TIDB_DATABASE: " + tidbDatabase);
-        System.out.println("IS_SERVERLESS: " + isServerless);
-        System.out.println("TIDB_URL: " + tidbURLStringBuilder);
-
         return properties;
     }
 }

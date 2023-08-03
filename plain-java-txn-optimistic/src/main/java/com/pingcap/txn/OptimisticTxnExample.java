@@ -1,38 +1,30 @@
 package com.pingcap.txn;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.sql.*;
-import java.util.Arrays;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class OptimisticTxnExample {
+    private static final Logger LOGGER = LoggerFactory.getLogger(OptimisticTxnExample.class);
+
     public static void main(String[] args) throws SQLException, InterruptedException {
-        System.out.println(Arrays.toString(args));
-        int aliceQuantity = 0;
-        int bobQuantity = 0;
+        int aliceQuantity = Integer.parseInt(System.getenv().getOrDefault("ALICE_NUM", "4"));
+        int bobQuantity = Integer.parseInt(System.getenv().getOrDefault("BOB_NUM", "6"));
 
-        for (String arg: args) {
-            if (arg.startsWith("ALICE_NUM")) {
-                aliceQuantity = Integer.parseInt(arg.replace("ALICE_NUM=", ""));
-            }
-
-            if (arg.startsWith("BOB_NUM")) {
-                bobQuantity = Integer.parseInt(arg.replace("BOB_NUM=", ""));
-            }
-        }
-
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:mysql://localhost:4000/bookshop?useServerPrepStmts=true&cachePrepStmts=true");
-        ds.setUsername("root");
-        ds.setPassword("");
+        HikariDataSource ds = createHikariDataSourceByEnv();
 
         // prepare data
         Connection connection = ds.getConnection();
+        recreateUsersTable(connection);
+        recreateBooksTable(connection);
+        recreateOrdersTable(connection);
         createBook(connection, 1L, "Designing Data-Intensive Application", "Science & Technology",
                 Timestamp.valueOf("2018-09-01 00:00:00"), new BigDecimal(100), 10);
         createUser(connection, 1L, "Bob", new BigDecimal(10000));
@@ -57,6 +49,168 @@ public class OptimisticTxnExample {
         System.exit(0);
     }
 
+    public static void buy (HikariDataSource ds, Integer threadID, Long orderID, Long bookID,
+                            Long userID, Integer quantity, Integer retryTimes) {
+        String txnComment = "/* txn {} */ ";
+        if (threadID != 1) {
+            txnComment = "    " + txnComment;
+        }
+        LOGGER.info("user {} try to buy {} books, book id: {}", userID, quantity, bookID);
+
+        try (Connection connection = ds.getConnection()) {
+            try {
+
+                connection.setAutoCommit(false);
+                connection.createStatement().executeUpdate("begin optimistic");
+                LOGGER.info(txnComment + "begin optimistic", threadID);
+
+                // waiting for other thread ran the 'begin optimistic' statement
+                TimeUnit.SECONDS.sleep(1);
+
+                BigDecimal price = null;
+
+                // read price of book
+                PreparedStatement selectBook = connection.prepareStatement("select * from books where id = ? for update");
+                selectBook.setLong(1, bookID);
+                ResultSet res = selectBook.executeQuery();
+                LOGGER.info(txnComment + "select * from books where id = {} for update", threadID, bookID);
+                if (!res.next()) {
+                    throw new RuntimeException("book not exist");
+                } else {
+                    price = res.getBigDecimal("price");
+                    int stock = res.getInt("stock");
+                    if (stock < quantity) {
+                        throw new RuntimeException("book not enough");
+                    }
+                }
+
+                // update book
+                String updateBookSQL = "update `books` set stock = stock - ? where id = ? and stock - ? >= 0";
+                PreparedStatement updateBook = connection.prepareStatement(updateBookSQL);
+                updateBook.setInt(1, quantity);
+                updateBook.setLong(2, bookID);
+                updateBook.setInt(3, quantity);
+                updateBook.executeUpdate();
+                LOGGER.info(txnComment + "update `books` set stock = stock - {} where id = {} and stock - {} >= 0",
+                        threadID, quantity, bookID, quantity);
+
+                // insert order
+                String insertOrderSQL = "insert into `orders` (`id`, `book_id`, `user_id`, `quality`) values (?, ?, ?, ?)";
+                PreparedStatement insertOrder = connection.prepareStatement(insertOrderSQL);
+                insertOrder.setLong(1, orderID);
+                insertOrder.setLong(2, bookID);
+                insertOrder.setLong(3, userID);
+                insertOrder.setInt(4, quantity);
+                insertOrder.executeUpdate();
+                LOGGER.info(txnComment + "insert into `orders` (`id`, `book_id`, `user_id`, `quality`) values ({}, {}, {}, {})",
+                        threadID, orderID, bookID, userID, quantity);
+
+                // update user
+                String updateUserSQL = "update `users` set `balance` = `balance` - ? where id = ?";
+                PreparedStatement updateUser = connection.prepareStatement(txnComment + updateUserSQL);
+                updateUser.setBigDecimal(1, price.multiply(new BigDecimal(quantity)));
+                updateUser.setLong(2, userID);
+                updateUser.executeUpdate();
+                LOGGER.info(txnComment + "update `users` set `balance` = `balance` - {} where id = {}",
+                        threadID, price.multiply(new BigDecimal(quantity)), userID);
+
+                connection.createStatement().executeUpdate("commit");
+                LOGGER.info(txnComment + "commit", threadID);
+                LOGGER.info("user {} buy {} books(id: {}) successfully", userID, quantity, bookID);
+            } catch (Exception e) {
+                connection.createStatement().executeUpdate(txnComment + "rollback");
+                LOGGER.info(txnComment + "rollback", threadID);
+                LOGGER.info("user {} fail to buy {} books(id: {}) because {} error", userID, quantity, bookID, e.getMessage());
+
+                if (e instanceof SQLException sqlException) {
+                    switch (sqlException.getErrorCode()) {
+                        // You can get all error codes at https://docs.pingcap.com/tidb/stable/error-codes
+                        case 9007: // Transactions in TiKV encounter write conflicts.
+                        case 8028: // table schema changes
+                        case 8002: // "SELECT FOR UPDATE" commit conflict
+                        case 8022: // The transaction commit fails and has been rolled back
+                            if (retryTimes != 0) {
+                                LOGGER.info("rest {} times. retry for  {}", retryTimes, e.getMessage());
+                                buy(ds, threadID, orderID, bookID, userID, quantity, retryTimes - 1);
+                            }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static HikariDataSource createHikariDataSourceByEnv() {
+        // 1. Get TiDB connection properties from environment variables.
+        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
+        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
+        String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
+        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
+        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
+
+        // 2. Create a JDBC URL based on the above properties.
+        StringBuilder tidbURLStringBuilder = new StringBuilder()
+                .append("jdbc:mysql://").append(tidbHost)
+                .append(":").append(tidbPort).append("/")
+                .append(tidbDatabase);
+
+        if (isServerless) {
+            tidbURLStringBuilder.append("?sslMode=VERIFY_IDENTITY&enabledTLSProtocols=TLSv1.2,TLSv1.3");
+        }
+
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl(tidbURLStringBuilder.toString());
+        ds.setUsername(tidbUser);
+        ds.setPassword(tidbPassword);
+
+        return ds;
+    }
+
+    public static void recreateOrdersTable(Connection connection) throws SQLException {
+        connection.prepareStatement("DROP TABLE IF EXISTS `orders`").execute();
+        connection.prepareStatement("""
+        CREATE TABLE `orders` (
+          `id` bigint(20) NOT NULL,
+          `book_id` bigint(20) NOT NULL,
+          `user_id` bigint(20) NOT NULL,
+          `quality` tinyint(4) NOT NULL,
+          `ordered_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,
+          KEY `orders_book_id_idx` (`book_id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+        """).execute();
+    }
+
+    public static void recreateUsersTable(Connection connection) throws SQLException {
+        connection.prepareStatement("DROP TABLE IF EXISTS `users`").execute();
+        connection.prepareStatement("""
+        CREATE TABLE `users` (
+          `id` bigint(20) NOT NULL,
+          `balance` decimal(15,2) DEFAULT '0.0',
+          `nickname` varchar(100) NOT NULL,
+          PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */,
+          UNIQUE KEY `nickname` (`nickname`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+        """).execute();
+    }
+
+    public static void recreateBooksTable(Connection connection) throws SQLException {
+        connection.prepareStatement("DROP TABLE IF EXISTS `books`").execute();
+        connection.prepareStatement("""
+        CREATE TABLE `books` (
+          `id` bigint(20) NOT NULL,
+          `title` varchar(100) NOT NULL,
+          `type` enum('Magazine','Novel','Life','Arts','Comics','Education & Reference','Humanities & Social Sciences','Science & Technology','Kids','Sports') NOT NULL,
+          `published_at` datetime NOT NULL,
+          `stock` int(11) DEFAULT '0',
+          `price` decimal(15,2) DEFAULT '0.0',
+          PRIMARY KEY (`id`) /*T![clustered_index] CLUSTERED */
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
+        """).execute();
+    }
+
     public static void createUser(Connection connection, Long id, String nickname, BigDecimal balance) throws SQLException  {
         PreparedStatement insert = connection.prepareStatement(
                 "INSERT INTO `users` (`id`, `nickname`, `balance`) VALUES (?, ?, ?)");
@@ -77,84 +231,5 @@ public class OptimisticTxnExample {
         insert.setInt(6, stock);
 
         insert.executeUpdate();
-    }
-
-    public static void buy (HikariDataSource ds, Integer threadID, Long orderID, Long bookID,
-                            Long userID, Integer quantity, Integer retryTimes) {
-        String txnComment = "/* txn " + threadID + " */ ";
-
-        System.out.printf("\nuser %d try to buy %d books(id: %d)\n", userID, quantity, bookID);
-        try (Connection connection = ds.getConnection()) {
-            try {
-
-                connection.setAutoCommit(false);
-                connection.createStatement().executeUpdate(txnComment + "begin optimistic");
-
-                // waiting for other thread ran the 'begin optimistic' statement
-                TimeUnit.SECONDS.sleep(1);
-
-                BigDecimal price = null;
-
-                // read price of book
-                PreparedStatement selectBook = connection.prepareStatement(txnComment + "select * from books where id = ? for update");
-                selectBook.setLong(1, bookID);
-                ResultSet res = selectBook.executeQuery();
-                if (!res.next()) {
-                    throw new RuntimeException("book not exist");
-                } else {
-                    price = res.getBigDecimal("price");
-                    int stock = res.getInt("stock");
-                    if (stock < quantity) {
-                        throw new RuntimeException("book not enough");
-                    }
-                }
-
-                // update book
-                String updateBookSQL = "update `books` set stock = stock - ? where id = ? and stock - ? >= 0";
-                PreparedStatement updateBook = connection.prepareStatement(txnComment + updateBookSQL);
-                updateBook.setInt(1, quantity);
-                updateBook.setLong(2, bookID);
-                updateBook.setInt(3, quantity);
-                updateBook.executeUpdate();
-
-                // insert order
-                String insertOrderSQL = "insert into `orders` (`id`, `book_id`, `user_id`, `quality`) values (?, ?, ?, ?)";
-                PreparedStatement insertOrder = connection.prepareStatement(txnComment + insertOrderSQL);
-                insertOrder.setLong(1, orderID);
-                insertOrder.setLong(2, bookID);
-                insertOrder.setLong(3, userID);
-                insertOrder.setInt(4, quantity);
-                insertOrder.executeUpdate();
-
-                // update user
-                String updateUserSQL = "update `users` set `balance` = `balance` - ? where id = ?";
-                PreparedStatement updateUser = connection.prepareStatement(txnComment + updateUserSQL);
-                updateUser.setBigDecimal(1, price.multiply(new BigDecimal(quantity)));
-                updateUser.setLong(2, userID);
-                updateUser.executeUpdate();
-
-                connection.createStatement().executeUpdate(txnComment + "commit");
-                System.out.printf("\nuser %d buy %d books(id: %d) successfully\n", userID, quantity, bookID);
-            } catch (Exception e) {
-                connection.createStatement().executeUpdate(txnComment + "rollback");
-                System.out.printf("\nuser %d fail to buy %d books(id: %d) because %s error\n", userID, quantity, bookID, e.getMessage());
-
-                if (e instanceof SQLException sqlException) {
-                    switch (sqlException.getErrorCode()) {
-                        // You can get all error codes at https://docs.pingcap.com/tidb/stable/error-codes
-                        case 9007: // Transactions in TiKV encounter write conflicts.
-                        case 8028: // table schema changes
-                        case 8002: // "SELECT FOR UPDATE" commit conflict
-                        case 8022: // The transaction commit fails and has been rolled back
-                            if (retryTimes != 0) {
-                                System.out.println("rest " + retryTimes + " times. retry for " + e.getMessage());
-                                buy(ds, threadID, orderID, bookID, userID, quantity, retryTimes - 1);
-                            }
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }
