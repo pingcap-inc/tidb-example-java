@@ -14,6 +14,7 @@
 
 package com.pingcap.bulkUpdate;
 
+import com.mysql.cj.conf.PropertyDefinitions;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import java.sql.Connection;
@@ -25,50 +26,13 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BatchUpdateExample {
-    static class UpdateID {
-        private Long bookID;
-        private Long userID;
-
-        public UpdateID(Long bookID, Long userID) {
-            this.bookID = bookID;
-            this.userID = userID;
-        }
-
-        public Long getBookID() {
-            return bookID;
-        }
-
-        public void setBookID(Long bookID) {
-            this.bookID = bookID;
-        }
-
-        public Long getUserID() {
-            return userID;
-        }
-
-        public void setUserID(Long userID) {
-            this.userID = userID;
-        }
-
-        @Override
-        public String toString() {
-            return "[bookID] " + bookID + ", [userID] " + userID ;
-        }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, SQLException {
         // Configure the example database connection.
 
         // Create a mysql data source instance.
-        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+        MysqlDataSource mysqlDataSource = getMysqlDataSourceByEnv();
 
-        // Set server name, port, database name, username and password.
-        mysqlDataSource.setServerName("localhost");
-        mysqlDataSource.setPortNumber(4000);
-        mysqlDataSource.setDatabaseName("bookshop");
-        mysqlDataSource.setUser("root");
-        mysqlDataSource.setPassword("");
-
+        addAttrTenPoint(mysqlDataSource);
         UpdateID lastID = batchUpdate(mysqlDataSource, null);
 
         System.out.println("first time batch update success");
@@ -79,7 +43,13 @@ public class BatchUpdateExample {
         }
     }
 
-    public static UpdateID batchUpdate (MysqlDataSource ds, UpdateID lastID) {
+    public static void addAttrTenPoint(MysqlDataSource ds) throws SQLException {
+        try (Connection connection = ds.getConnection()) {
+            connection.createStatement().executeQuery(
+                    "ALTER TABLE `bookshop`.`ratings` ADD COLUMN `ten_point` BOOL NOT NULL DEFAULT FALSE");
+        }
+    }
+    public static UpdateID batchUpdate (MysqlDataSource ds, UpdateID lastID) throws SQLException {
         try (Connection connection = ds.getConnection()) {
             UpdateID updateID = null;
 
@@ -126,11 +96,7 @@ public class BatchUpdateExample {
             System.out.println("update " + count + " data");
 
             return updateID;
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return null;
     }
 
     public static String placeHolder(int n) {
@@ -140,5 +106,34 @@ public class BatchUpdateExample {
         }
 
         return sb.toString();
+    }
+
+    private static MysqlDataSource getMysqlDataSourceByEnv() throws SQLException {
+        // 1.1 Create a mysql data source instance.
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+
+        // 1.2 Get parameters from environment variables.
+        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
+        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
+        String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
+        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
+        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
+
+        // 1.3 Set server name, port, database name, username and password.
+        mysqlDataSource.setServerName(tidbHost);
+        mysqlDataSource.setPortNumber(tidbPort);
+        mysqlDataSource.setUser(tidbUser);
+        mysqlDataSource.setPassword(tidbPassword);
+        mysqlDataSource.setDatabaseName(tidbDatabase);
+        if (isServerless) {
+            mysqlDataSource.setSslMode(PropertyDefinitions.SslMode.VERIFY_IDENTITY.name());
+            mysqlDataSource.setEnabledTLSProtocols("TLSv1.2,TLSv1.3");
+        }
+
+        // Or you can use jdbc string instead.
+        // mysqlDataSource.setURL("jdbc:mysql://{host}:{port}/test?user={user}&password={password}");
+
+        return mysqlDataSource;
     }
 }
