@@ -8,9 +8,9 @@
         <!-- Database connection settings -->
         <property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="hibernate.dialect">org.hibernate.dialect.TiDBDialect</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:4000/test</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.password"></property>
+        <!--<property name="hibernate.connection.url">${TIDB_JDBC_URL}</property>-->
+        <!--<property name="hibernate.connection.username">${TIDB_USER}</property>-->
+        <!--<property name="hibernate.connection.password">${TIDB_PASSWORD}</property>-->
         <property name="hibernate.connection.autocommit">false</property>
 
         <!-- Required so a table can be created from the 'PlayerDAO' class -->
