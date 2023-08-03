@@ -37,7 +37,7 @@ public class EffectWriteSkew {
 
         // prepare data
         Connection connection = ds.getConnection();
-        createDoctorTable(connection);
+        recreateDoctorTable(connection);
         createDoctor(connection, 1, "Alice", true, 123);
         createDoctor(connection, 2, "Bob", true, 123);
         createDoctor(connection, 3, "Carol", false, 123);
@@ -61,7 +61,8 @@ public class EffectWriteSkew {
         System.exit(0);
     }
 
-    public static void createDoctorTable(Connection connection) throws SQLException {
+    public static void recreateDoctorTable(Connection connection) throws SQLException {
+        connection.createStatement().executeUpdate("DROP TABLE IF EXISTS `doctors`");
         connection.createStatement().executeUpdate("CREATE TABLE `doctors` (" +
                 "    `id` int(11) NOT NULL," +
                 "    `name` varchar(255) DEFAULT NULL," +
