@@ -90,7 +90,7 @@ public class JDBCExample
         String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
         String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
         String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
-        boolean isServerless = Boolean.parseBoolean(System.getenv().getOrDefault("IS_SERVERLESS", "false"));
+        boolean useSSL = Boolean.parseBoolean(System.getenv().getOrDefault("USE_SSL", "false"));
 
         // 1.3 Set server name, port, database name, username and password.
         mysqlDataSource.setServerName(tidbHost);
@@ -98,7 +98,7 @@ public class JDBCExample
         mysqlDataSource.setUser(tidbUser);
         mysqlDataSource.setPassword(tidbPassword);
         mysqlDataSource.setDatabaseName(tidbDatabase);
-        if (isServerless) {
+        if (useSSL) {
             mysqlDataSource.setSslMode(PropertyDefinitions.SslMode.VERIFY_IDENTITY.name());
             mysqlDataSource.setEnabledTLSProtocols("TLSv1.2,TLSv1.3");
         }
