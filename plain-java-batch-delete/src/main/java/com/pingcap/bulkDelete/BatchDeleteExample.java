@@ -14,6 +14,7 @@
 
 package com.pingcap.bulkDelete;
 
+import com.mysql.cj.conf.PropertyDefinitions;
 import com.mysql.cj.jdbc.MysqlDataSource;
 
 import java.sql.Connection;
@@ -25,18 +26,9 @@ import java.util.concurrent.TimeUnit;
 
 public class BatchDeleteExample
 {
-    public static void main(String[] args) throws InterruptedException {
-        // Configure the example database connection.
-
+    public static void main(String[] args) throws SQLException {
         // Create a mysql data source instance.
-        MysqlDataSource mysqlDataSource = new MysqlDataSource();
-
-        // Set server name, port, database name, username and password.
-        mysqlDataSource.setServerName("localhost");
-        mysqlDataSource.setPortNumber(4000);
-        mysqlDataSource.setDatabaseName("bookshop");
-        mysqlDataSource.setUser("root");
-        mysqlDataSource.setPassword("");
+        MysqlDataSource mysqlDataSource = getMysqlDataSourceByEnv();
 
         Integer updateCount;
         do {
@@ -46,7 +38,7 @@ public class BatchDeleteExample
 
     public static Integer batchDelete (MysqlDataSource ds) {
         try (Connection connection = ds.getConnection()) {
-            String sql = "DELETE FROM `bookshop`.`ratings` WHERE `rated_at` >= ? AND  `rated_at` <= ? LIMIT 1000";
+            String sql = "DELETE FROM `ratings` WHERE `rated_at` >= ? AND  `rated_at` <= ? LIMIT 1000";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MILLISECOND, 0);
@@ -66,5 +58,34 @@ public class BatchDeleteExample
         }
 
         return -1;
+    }
+
+    private static MysqlDataSource getMysqlDataSourceByEnv() throws SQLException {
+        // 1.1 Create a mysql data source instance.
+        MysqlDataSource mysqlDataSource = new MysqlDataSource();
+
+        // 1.2 Get parameters from environment variables.
+        String tidbHost = System.getenv().getOrDefault("TIDB_HOST", "localhost");
+        int tidbPort = Integer.parseInt(System.getenv().getOrDefault("TIDB_PORT", "4000"));
+        String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
+        String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
+        String tidbDatabase = System.getenv().getOrDefault("TIDB_DATABASE", "test");
+        boolean useSSL = Boolean.parseBoolean(System.getenv().getOrDefault("USE_SSL", "false"));
+
+        // 1.3 Set server name, port, database name, username and password.
+        mysqlDataSource.setServerName(tidbHost);
+        mysqlDataSource.setPortNumber(tidbPort);
+        mysqlDataSource.setUser(tidbUser);
+        mysqlDataSource.setPassword(tidbPassword);
+        mysqlDataSource.setDatabaseName(tidbDatabase);
+        if (useSSL) {
+            mysqlDataSource.setSslMode(PropertyDefinitions.SslMode.VERIFY_IDENTITY.name());
+            mysqlDataSource.setEnabledTLSProtocols("TLSv1.2,TLSv1.3");
+        }
+
+        // Or you can use jdbc string instead.
+        // mysqlDataSource.setURL("jdbc:mysql://{host}:{port}/test?user={user}&password={password}");
+
+        return mysqlDataSource;
     }
 }

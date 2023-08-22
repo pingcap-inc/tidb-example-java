@@ -33,13 +33,11 @@ import java.util.concurrent.Semaphore;
  */
 public class EffectWriteSkew {
     public static void main(String[] args) throws SQLException, InterruptedException {
-        HikariDataSource ds = new HikariDataSource();
-        ds.setJdbcUrl("jdbc:mysql://localhost:4000/test?useServerPrepStmts=true&cachePrepStmts=true");
-        ds.setUsername("root");
+        HikariDataSource ds = createHikariDataSourceByEnv();
 
         // prepare data
         Connection connection = ds.getConnection();
-        createDoctorTable(connection);
+        recreateDoctorTable(connection);
         createDoctor(connection, 1, "Alice", true, 123);
         createDoctor(connection, 2, "Bob", true, 123);
         createDoctor(connection, 3, "Carol", false, 123);
@@ -63,7 +61,8 @@ public class EffectWriteSkew {
         System.exit(0);
     }
 
-    public static void createDoctorTable(Connection connection) throws SQLException {
+    public static void recreateDoctorTable(Connection connection) throws SQLException {
+        connection.createStatement().executeUpdate("DROP TABLE IF EXISTS `doctors`");
         connection.createStatement().executeUpdate("CREATE TABLE `doctors` (" +
                 "    `id` int(11) NOT NULL," +
                 "    `name` varchar(255) DEFAULT NULL," +
@@ -134,5 +133,20 @@ public class EffectWriteSkew {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static HikariDataSource createHikariDataSourceByEnv() {
+        // 1. Get TiDB connection properties from environment variables.
+        // 1. Get TiDB connection properties from environment variables.
+        String tidbJDBCURL = System.getenv().getOrDefault("TIDB_JDBC_URL", "jdbc:mysql://localhost:4000/test");
+        String tidbUser = System.getenv().getOrDefault("TIDB_USER", "root");
+        String tidbPassword = System.getenv().getOrDefault("TIDB_PASSWORD", "");
+
+        HikariDataSource ds = new HikariDataSource();
+        ds.setJdbcUrl(tidbJDBCURL);
+        ds.setUsername(tidbUser);
+        ds.setPassword(tidbPassword);
+
+        return ds;
     }
 }

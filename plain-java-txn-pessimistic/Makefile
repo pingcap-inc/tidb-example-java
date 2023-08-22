@@ -12,22 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all prepare re-prepare build not-oversell oversell
+.PHONY: all build not-oversell oversell
 
 all:
-	make build prepare not-oversell re-prepare oversell
-
-prepare:
-	tiup demo bookshop prepare --drop-tables --books 0 --authors 0 --orders 0 --ratings 0 --users 0
-
-re-prepare:
-	tiup demo bookshop prepare --drop-tables --books 0 --authors 0 --orders 0 --ratings 0 --users 0
+	. ../env.sh && make build not-oversell oversell
 
 build:
 	mvn clean package
 
 not-oversell:
-	java -jar target/plain-java-txn-pessimistic-0.0.1-jar-with-dependencies.jar ALICE_NUM=4 BOB_NUM=6
+	export ALICE_NUM=4 && export BOB_NUM=6 && java -jar target/plain-java-txn-pessimistic-jar-with-dependencies.jar
 
 oversell:
-	java -jar target/plain-java-txn-pessimistic-0.0.1-jar-with-dependencies.jar ALICE_NUM=4 BOB_NUM=7
+	export ALICE_NUM=4 && export BOB_NUM=7 && java -jar target/plain-java-txn-pessimistic-jar-with-dependencies.jar

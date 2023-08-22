@@ -15,14 +15,13 @@
 .PHONY: all prepare build run
 
 all:
-	make prepare build run
+	. ../env.sh && make prepare build run
 
 prepare:
-	tiup demo bookshop prepare --drop-tables
-	mysql --host 127.0.0.1 --port 4000 -u root<add_attr_ten_point.sql
+	tiup demo bookshop prepare -D $(TIDB_DB_NAME) -H $(TIDB_HOST) -P $(TIDB_PORT) -U $(TIDB_USER) -p $(TIDB_PASSWORD) --authors 100 --books 1000 --orders 11451 --users 1000 --ratings 11451 --drop-tables
 
 build:
 	mvn clean package
 
 run:
-	java -jar target/plain-java-batch-update-0.0.1-jar-with-dependencies.jar
+	java -jar target/plain-java-batch-update-jar-with-dependencies.jar

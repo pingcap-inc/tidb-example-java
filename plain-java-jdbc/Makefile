@@ -12,16 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all mysql build run
+.PHONY: all build run
 
 all:
-	make build run
-
-mysql:
-	mysql --host 127.0.0.1 --port 4000 -u root<src/main/resources/dbinit.sql
+	. ../env.sh && make build run
 
 build:
 	mvn clean package
 
 run:
-	java -jar target/plain-java-jdbc-0.0.1-jar-with-dependencies.jar
+	java -jar target/plain-java-jdbc-jar-with-dependencies.jar

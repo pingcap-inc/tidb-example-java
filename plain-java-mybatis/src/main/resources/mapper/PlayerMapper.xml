@@ -70,4 +70,34 @@
       goods = #{goods,jdbcType=INTEGER}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+  <select id="selectByPrimaryKeyWithLock" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from player
+    where `id` = #{id,jdbcType=VARCHAR}
+    for update
+  </select>
+
+  <select id="selectByLimit" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from player
+    limit #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from player
+  </select>
+
+  <delete id="dropTableIfExist">
+    DROP TABLE IF EXISTS player;
+  </delete>
+  <update id="createTable">
+    CREATE TABLE player (
+      `id` VARCHAR(36),
+      `coins` INTEGER,
+      `goods` INTEGER,
+      PRIMARY KEY (`id`)
+    );
+  </update>
 </mapper>
