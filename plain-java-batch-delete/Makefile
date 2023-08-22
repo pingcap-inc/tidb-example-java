@@ -18,7 +18,7 @@ all:
 	. ../env.sh && make prepare build run
 
 prepare:
-	tiup demo bookshop prepare -D $(TIDB_DB_NAME) -H $(TIDB_HOST) -P $(TIDB_PORT) -U $(TIDB_USER) -p $(TIDB_PASSWORD) --authors 0 --books 0 --orders 0 --users 0 --ratings 11451 --drop-tables
+	tiup demo bookshop prepare -D $(TIDB_DB_NAME) -H $(TIDB_HOST) -P $(TIDB_PORT) -U $(TIDB_USER) -p $(TIDB_PASSWORD) --authors 100 --books 1000 --orders 11451 --users 1000 --ratings 11451 --drop-tables
 
 build:
 	mvn clean package

@@ -38,7 +38,7 @@ public class BatchDeleteExample
 
     public static Integer batchDelete (MysqlDataSource ds) {
         try (Connection connection = ds.getConnection()) {
-            String sql = "DELETE FROM `bookshop`.`ratings` WHERE `rated_at` >= ? AND  `rated_at` <= ? LIMIT 1000";
+            String sql = "DELETE FROM `ratings` WHERE `rated_at` >= ? AND  `rated_at` <= ? LIMIT 1000";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.MILLISECOND, 0);

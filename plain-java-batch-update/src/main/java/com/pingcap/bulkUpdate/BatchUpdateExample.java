@@ -45,8 +45,8 @@ public class BatchUpdateExample {
 
     public static void addAttrTenPoint(MysqlDataSource ds) throws SQLException {
         try (Connection connection = ds.getConnection()) {
-            connection.createStatement().executeQuery(
-                    "ALTER TABLE `bookshop`.`ratings` ADD COLUMN `ten_point` BOOL NOT NULL DEFAULT FALSE");
+            connection.createStatement().executeUpdate(
+                    "ALTER TABLE `ratings` ADD COLUMN `ten_point` BOOL NOT NULL DEFAULT FALSE");
         }
     }
     public static UpdateID batchUpdate (MysqlDataSource ds, UpdateID lastID) throws SQLException {
@@ -57,11 +57,11 @@ public class BatchUpdateExample {
 
             if (lastID == null) {
                 selectPs = connection.prepareStatement(
-                        "SELECT `book_id`, `user_id` FROM `bookshop`.`ratings` " +
+                        "SELECT `book_id`, `user_id` FROM `ratings` " +
                                 "WHERE `ten_point` != true ORDER BY `book_id`, `user_id` LIMIT 1000");
             } else {
                 selectPs = connection.prepareStatement(
-                        "SELECT `book_id`, `user_id` FROM `bookshop`.`ratings` "+
+                        "SELECT `book_id`, `user_id` FROM `ratings` "+
                                 "WHERE `ten_point` != true AND `book_id` > ? AND `user_id` > ? "+
                                 "ORDER BY `book_id`, `user_id` LIMIT 1000");
 
@@ -85,7 +85,7 @@ public class BatchUpdateExample {
                 return null;
             }
 
-            String updateSQL = "UPDATE `bookshop`.`ratings` SET `ten_point` = true, "+
+            String updateSQL = "UPDATE `ratings` SET `ten_point` = true, "+
                     "`score` = `score` * 2 WHERE (`book_id`, `user_id`) IN (" +
                     placeHolder(idList.size() / 2) + ")";
             PreparedStatement updatePs = connection.prepareStatement(updateSQL);
